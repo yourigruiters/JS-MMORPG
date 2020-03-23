@@ -16,7 +16,8 @@ const floorTypes = {
   conveyorU: 4,
   conveyorD: 5,
   conveyorL: 6,
-  conveyorR: 7
+  conveyorR: 7,
+  grass: 8
 };
 
 // Tiletypes
@@ -28,7 +29,7 @@ const tileTypes = {
   },
   1: {
     color: "#5aa457",
-    floor: floorTypes.path,
+    floor: floorTypes.grass,
     sprite: [{ x: 40, y: 0, w: 40, h: 40 }]
   },
   2: {

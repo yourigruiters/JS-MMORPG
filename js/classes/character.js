@@ -7,7 +7,16 @@ class Character {
     this.timeMoved = 0; // Time of starting to move
     this.dimensions = [60, 60]; // Character size
     this.position = [90, 90]; // Position on map
-    this.delayMove = 400; // Time to move to next tile
+
+    this.delayMove = {}; // Time to move to next tile
+    this.delayMove[floorTypes.path] = 400;
+    this.delayMove[floorTypes.grass] = 700;
+    this.delayMove[floorTypes.ice] = 300;
+    this.delayMove[floorTypes.conveyorU] = 200;
+    this.delayMove[floorTypes.conveyorD] = 200;
+    this.delayMove[floorTypes.conveyorL] = 200;
+    this.delayMove[floorTypes.conveyorR] = 200;
+
     this.direction = directions.up;
 
     // Player sprite
@@ -40,9 +49,13 @@ class Character {
       return false;
     }
 
+    let moveSpeed = this.delayMove[
+      tileTypes[tileMap[toIndex(this.tileFrom[0], this.tileFrom[1])]].floor
+    ];
+
     // If character wants to move:
-    // Check if time elapsed is greater than time to move a tile
-    if (currentFrameTime - this.timeMoved >= this.delayMove) {
+    // Check if time elapsed is greater than time to move a specific tile speed
+    if (currentFrameTime - this.timeMoved >= moveSpeed) {
       // If this is the case, should have reached destination tile
       // (I believe, wait for next drawGame to respond)
       this.placeAt(this.tileTo[0], this.tileTo[1]);
@@ -76,14 +89,14 @@ class Character {
       // Horizontally
       if (this.tileTo[0] != this.tileFrom[0]) {
         let difference =
-          (tileW / this.delayMove) * (currentFrameTime - this.timeMoved);
+          (tileW / moveSpeed) * (currentFrameTime - this.timeMoved);
         this.position[0] +=
           this.tileTo[0] < this.tileFrom[0] ? 0 - difference : difference;
       }
       // Vertically
       if (this.tileTo[1] != this.tileFrom[1]) {
         let difference =
-          (tileH / this.delayMove) * (currentFrameTime - this.timeMoved);
+          (tileH / moveSpeed) * (currentFrameTime - this.timeMoved);
         this.position[1] +=
           this.tileTo[1] < this.tileFrom[1] ? 0 - difference : difference;
       }
@@ -104,15 +117,11 @@ class Character {
       return false;
     }
 
-    // Check if floorType is not Path - Water is also blocked
-    // Also check for Ice and conveyorDirections
+    // Check if tileType is in delayMove list to see if we can move
+    // Meaning at solid object we cannot move (water)
     if (
-      tileTypes[tileMap[toIndex(x, y)]].floor != floorTypes.path &&
-      tileTypes[tileMap[toIndex(x, y)]].floor != floorTypes.ice &&
-      tileTypes[tileMap[toIndex(x, y)]].floor != floorTypes.conveyorL &&
-      tileTypes[tileMap[toIndex(x, y)]].floor != floorTypes.conveyorR &&
-      tileTypes[tileMap[toIndex(x, y)]].floor != floorTypes.conveyorU &&
-      tileTypes[tileMap[toIndex(x, y)]].floor != floorTypes.conveyorD
+      typeof this.delayMove[tileTypes[tileMap[toIndex(x, y)]].floor] ===
+      "undefined"
     ) {
       return false;
     } else {
