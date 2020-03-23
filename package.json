@@ -1,0 +1,15 @@
+{
+  "name": "mmorpg",
+  "version": "0.0.1",
+  "description": "MMORPG Canvas Browser Game",
+  "main": "game.js",
+  "scripts": {
+    "start": "http-server -a localhost -p 8080 -c-1",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Youri Gruiters",
+  "license": "ISC",
+  "dependencies": {
+    "http-server": "^0.12.1"
+  }
+}
