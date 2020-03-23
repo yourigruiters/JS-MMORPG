@@ -2,6 +2,18 @@
 let canvas = null;
 let game = null;
 
+// Gametime and speed information (pause)
+let gameTime = 0;
+
+let gameSpeeds = [
+  { name: "normal", multi: 1 },
+  { name: "slow", multi: 0.3 },
+  { name: "fast", multi: 3 },
+  { name: "paused", multi: 0 }
+];
+
+let currentGameSpeed = 0;
+
 // Map variables
 // Size of tiles
 const tileW = 80; // 40px
@@ -42,6 +54,7 @@ window.onload = () => {
   // Checking for player movement
   // Key pressed
   window.addEventListener("keydown", e => {
+    // Arrowkeys
     if (e.keyCode >= 37 && e.keyCode <= 40) {
       keysDown[e.keyCode] = true;
     }
@@ -49,8 +62,15 @@ window.onload = () => {
 
   // Key released
   window.addEventListener("keyup", e => {
+    // ArrowKeys
     if (e.keyCode >= 37 && e.keyCode <= 40) {
       keysDown[e.keyCode] = false;
+    }
+
+    // UPDATE: P or S
+    if (e.keyCode == 83) {
+      currentGameSpeed =
+        currentGameSpeed >= gameSpeeds.length - 1 ? 0 : currentGameSpeed + 1;
     }
   });
 
@@ -111,6 +131,7 @@ drawGame = () => {
   let currentFrameTime = Date.now();
   // timeElapsed is for future purposes (elapsed time since last Frametime);
   let timeElapsed = currentFrameTime - lastFrameTime;
+  gameTime += Math.floor(timeElapsed * gameSpeeds[currentGameSpeed].multi);
 
   let sec = Math.floor(Date.now() / 1000);
 
@@ -123,10 +144,13 @@ drawGame = () => {
   }
 
   // Check if player is able to move with processMovement
-  if (!player.processMovement(currentFrameTime)) {
+  if (
+    !player.processMovement(gameTime) &&
+    gameSpeeds[currentGameSpeed].multi != 0
+  ) {
     // Change player.tileFrom[1] > X && --- X is given value, should change if implementing map decoration
     // toIndex returns index of tile - 0 (blocked) or 1 (moveable)
-    movePlayer(currentFrameTime);
+    movePlayer(gameTime);
   }
 
   // Call viewport update function providing character position as parameters

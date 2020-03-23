@@ -60,6 +60,13 @@ class Character {
       // (I believe, wait for next drawGame to respond)
       this.placeAt(this.tileTo[0], this.tileTo[1]);
 
+      // Check if there is an entry for the tileIndex in the event list and call event for this character
+      if (
+        typeof tileEvents[toIndex(this.tileTo[0], this.tileTo[1])] !==
+        "undefined"
+      ) {
+        tileEvents[toIndex(this.tileTo[0], this.tileTo[1])](this);
+      }
       // Check tiletype of character after completed a move (for special types)
       let tileFloor =
         tileTypes[tileMap[toIndex(this.tileFrom[0], this.tileFrom[1])]].floor;
@@ -162,24 +169,24 @@ class Character {
 
   // Move in direction
   // Also face in that direction, move this to canMoveUp for creating interaction possibility
-  moveUp = currentGameTime => {
+  moveUp = gameTime => {
     this.tileTo[1] -= 1;
-    this.timeMoved = currentGameTime;
+    this.timeMoved = gameTime;
     this.direction = directions.up;
   };
-  moveDown = currentGameTime => {
+  moveDown = gameTime => {
     this.tileTo[1] += 1;
-    this.timeMoved = currentGameTime;
+    this.timeMoved = gameTime;
     this.direction = directions.down;
   };
-  moveLeft = currentGameTime => {
+  moveLeft = gameTime => {
     this.tileTo[0] -= 1;
-    this.timeMoved = currentGameTime;
+    this.timeMoved = gameTime;
     this.direction = directions.left;
   };
-  moveRight = currentGameTime => {
+  moveRight = gameTime => {
     this.tileTo[0] += 1;
-    this.timeMoved = currentGameTime;
+    this.timeMoved = gameTime;
     this.direction = directions.right;
   };
 

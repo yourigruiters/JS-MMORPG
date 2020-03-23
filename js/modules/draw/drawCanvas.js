@@ -13,7 +13,7 @@ drawCullingMap = currentFrameTime => {
       let sprite = getFrame(
         tile.sprite,
         tile.spriteDuration,
-        currentFrameTime,
+        gameTime,
         tile.animated
       );
 
@@ -54,4 +54,9 @@ drawPlayer = () => {
 drawFPSCounter = () => {
   game.fillStyle = "#ff0000";
   game.fillText("FPS: " + framesLastSecond, 10, 20);
+  game.fillText(
+    "Game speed: " + gameSpeeds[currentGameSpeed].name + " -- (s)",
+    10,
+    40
+  );
 };

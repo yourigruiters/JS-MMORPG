@@ -7,26 +7,26 @@ let keysDown = {
 };
 
 // Moving player
-movePlayer = currentFrameTime => {
+movePlayer = gameTime => {
   if (
     keysDown[38] && // UP
     player.canMoveUp()
   ) {
-    player.moveUp(currentFrameTime);
+    player.moveUp(gameTime);
   } else if (
     keysDown[40] && // DOWN
     player.canMoveDown()
   ) {
-    player.moveDown(currentFrameTime);
+    player.moveDown(gameTime);
   } else if (
     keysDown[37] && // LEFT
     player.canMoveLeft()
   ) {
-    player.moveLeft(currentFrameTime);
+    player.moveLeft(gameTime);
   } else if (
     keysDown[39] && // RIGHT
     player.canMoveRight()
   ) {
-    player.moveRight(currentFrameTime);
+    player.moveRight(gameTime);
   }
 };
