@@ -16,6 +16,14 @@ let frameCount = 0;
 let framesLastSecond = 0;
 let lastFrameTime = 0;
 
+// Directions
+const directions = {
+  up: 0,
+  right: 1,
+  down: 2,
+  left: 3
+};
+
 // Create viewport using class
 let viewport = new Viewport();
 // Create player using class
@@ -48,6 +56,22 @@ window.onload = () => {
 
   // Set viewport equal to canvas width and height
   viewport.screen = [canvas.width, canvas.height];
+
+  // Loading in tileset
+  tileset = new Image();
+
+  // If error in loading tileset - destroy game
+  tileset.onerror = () => {
+    game = null;
+    alert("Failed loading");
+  };
+
+  // Set variable to true and load tileset
+  tileset.onload = () => {
+    tilesetLoaded = true;
+  };
+
+  tileset.src = tilesetURL;
 };
 
 // Helper functions
@@ -59,6 +83,11 @@ toIndex = (x, y) => {
 // Drawing of the game
 drawGame = () => {
   if (game === null) {
+    return;
+  }
+
+  if (!tilesetLoaded) {
+    requestAnimationFrame(drawGame);
     return;
   }
 

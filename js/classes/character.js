@@ -8,6 +8,14 @@ class Character {
     this.dimensions = [60, 60]; // Character size
     this.position = [90, 90]; // Position on map
     this.delayMove = 400; // Time to move to next tile
+    this.direction = directions.up;
+
+    // Player sprite
+    this.sprites = {};
+    this.sprites[directions.up] = [{ x: 0, y: 120, w: 30, h: 30 }];
+    this.sprites[directions.right] = [{ x: 0, y: 150, w: 30, h: 30 }];
+    this.sprites[directions.down] = [{ x: 0, y: 180, w: 30, h: 30 }];
+    this.sprites[directions.left] = [{ x: 0, y: 210, w: 30, h: 30 }];
   }
 
   // Place caracter at specified tile
@@ -46,7 +54,6 @@ class Character {
       this.position[1] =
         this.tileFrom[1] * tileH + (tileH - this.dimensions[1]) / 2;
 
-      console.log(this.tileFrom);
       // Moving horizontally or vertically?
       // Horizontally
       if (this.tileTo[0] != this.tileFrom[0]) {
@@ -103,20 +110,25 @@ class Character {
   };
 
   // Move in direction
+  // Also face in that direction, move this to canMoveUp for creating interaction possibility
   moveUp = currentGameTime => {
     this.tileTo[1] -= 1;
     this.timeMoved = currentGameTime;
+    this.direction = directions.up;
   };
   moveDown = currentGameTime => {
     this.tileTo[1] += 1;
     this.timeMoved = currentGameTime;
+    this.direction = directions.down;
   };
   moveLeft = currentGameTime => {
     this.tileTo[0] -= 1;
     this.timeMoved = currentGameTime;
+    this.direction = directions.left;
   };
   moveRight = currentGameTime => {
     this.tileTo[0] += 1;
     this.timeMoved = currentGameTime;
+    this.direction = directions.right;
   };
 }

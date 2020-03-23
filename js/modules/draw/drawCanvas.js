@@ -9,9 +9,15 @@ drawCullingMap = () => {
   // 0 (blocked) or 1 (moveable)
   for (let y = viewport.startTile[1]; y <= viewport.endTile[1]; y++) {
     for (let x = viewport.startTile[0]; x <= viewport.endTile[0]; x++) {
-      game.fillStyle = tileTypes[tileMap[toIndex(x, y)]].color;
+      let tile = tileTypes[tileMap[toIndex(x, y)]];
 
-      game.fillRect(
+      // Draw tileset image on board
+      game.drawImage(
+        tileset,
+        tile.sprite[0].x,
+        tile.sprite[0].y,
+        tile.sprite[0].w,
+        tile.sprite[0].h,
         viewport.offset[0] + x * tileW,
         viewport.offset[1] + y * tileH,
         tileW,
@@ -23,9 +29,14 @@ drawCullingMap = () => {
 
 // Draw player
 drawPlayer = () => {
-  // Color - posX - posY - Width - Height
-  game.fillStyle = "#0000ff";
-  game.fillRect(
+  let sprite = player.sprites[player.direction];
+
+  game.drawImage(
+    tileset,
+    sprite[0].x,
+    sprite[0].y,
+    sprite[0].w,
+    sprite[0].h,
     viewport.offset[0] + player.position[0],
     viewport.offset[1] + player.position[1],
     player.dimensions[0],
