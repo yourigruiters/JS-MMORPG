@@ -5,19 +5,25 @@ drawBackground = () => {
 };
 
 // CULLING (Draw visible tiles)
-drawCullingMap = () => {
+drawCullingMap = currentFrameTime => {
   // 0 (blocked) or 1 (moveable)
   for (let y = viewport.startTile[1]; y <= viewport.endTile[1]; y++) {
     for (let x = viewport.startTile[0]; x <= viewport.endTile[0]; x++) {
       let tile = tileTypes[tileMap[toIndex(x, y)]];
+      let sprite = getFrame(
+        tile.sprite,
+        tile.spriteDuration,
+        currentFrameTime,
+        tile.animated
+      );
 
       // Draw tileset image on board
       game.drawImage(
         tileset,
-        tile.sprite[0].x,
-        tile.sprite[0].y,
-        tile.sprite[0].w,
-        tile.sprite[0].h,
+        sprite.x,
+        sprite.y,
+        sprite.w,
+        sprite.h,
         viewport.offset[0] + x * tileW,
         viewport.offset[1] + y * tileH,
         tileW,

@@ -31,7 +31,7 @@ class Character {
   };
 
   // Process movement of the character
-  processMovement = timeElapsed => {
+  processMovement = currentFrameTime => {
     // Check if character wants to move
     if (
       this.tileFrom[0] === this.tileTo[0] &&
@@ -42,10 +42,28 @@ class Character {
 
     // If character wants to move:
     // Check if time elapsed is greater than time to move a tile
-    if (timeElapsed - this.timeMoved >= this.delayMove) {
+    if (currentFrameTime - this.timeMoved >= this.delayMove) {
       // If this is the case, should have reached destination tile
       // (I believe, wait for next drawGame to respond)
       this.placeAt(this.tileTo[0], this.tileTo[1]);
+
+      // Check tiletype of character after completed a move (for special types)
+      let tileFloor =
+        tileTypes[tileMap[toIndex(this.tileFrom[0], this.tileFrom[1])]].floor;
+
+      if (tileFloor === floorTypes.ice) {
+        if (this.canMoveDirection(this.direction)) {
+          this.moveDirection(this.direction, currentFrameTime);
+        }
+      } else if (tileFloor === floorTypes.conveyorL && this.canMoveLeft()) {
+        this.moveLeft(currentFrameTime);
+      } else if (tileFloor === floorTypes.conveyorR && this.canMoveRight()) {
+        this.moveRight(currentFrameTime);
+      } else if (tileFloor === floorTypes.conveyorU && this.canMoveUp()) {
+        this.moveUp(currentFrameTime);
+      } else if (tileFloor === floorTypes.conveyorD && this.canMoveDown()) {
+        this.moveDown(currentFrameTime);
+      }
     } else {
       // Calculate pixel position of the character on the map (Equal to placeAt() above)
       // Gives pixel position of the character at their starting tile (tileFrom value)
@@ -58,14 +76,14 @@ class Character {
       // Horizontally
       if (this.tileTo[0] != this.tileFrom[0]) {
         let difference =
-          (tileW / this.delayMove) * (timeElapsed - this.timeMoved);
+          (tileW / this.delayMove) * (currentFrameTime - this.timeMoved);
         this.position[0] +=
           this.tileTo[0] < this.tileFrom[0] ? 0 - difference : difference;
       }
       // Vertically
       if (this.tileTo[1] != this.tileFrom[1]) {
         let difference =
-          (tileH / this.delayMove) * (timeElapsed - this.timeMoved);
+          (tileH / this.delayMove) * (currentFrameTime - this.timeMoved);
         this.position[1] +=
           this.tileTo[1] < this.tileFrom[1] ? 0 - difference : difference;
       }
@@ -87,7 +105,15 @@ class Character {
     }
 
     // Check if floorType is not Path - Water is also blocked
-    if (tileTypes[tileMap[toIndex(x, y)]].floor != floorTypes.path) {
+    // Also check for Ice and conveyorDirections
+    if (
+      tileTypes[tileMap[toIndex(x, y)]].floor != floorTypes.path &&
+      tileTypes[tileMap[toIndex(x, y)]].floor != floorTypes.ice &&
+      tileTypes[tileMap[toIndex(x, y)]].floor != floorTypes.conveyorL &&
+      tileTypes[tileMap[toIndex(x, y)]].floor != floorTypes.conveyorR &&
+      tileTypes[tileMap[toIndex(x, y)]].floor != floorTypes.conveyorU &&
+      tileTypes[tileMap[toIndex(x, y)]].floor != floorTypes.conveyorD
+    ) {
       return false;
     } else {
       // We can move to desired tile
@@ -107,6 +133,22 @@ class Character {
   };
   canMoveRight = () => {
     return this.canMoveTo(this.tileFrom[0] + 1, this.tileFrom[1]);
+  };
+
+  // Check if character can move in the provided direction
+  canMoveDirection = direction => {
+    switch (direction) {
+      case directions.up:
+        return this.canMoveUp();
+      case directions.down:
+        return this.canMoveDown();
+      case directions.left:
+        return this.canMoveLeft();
+      case directions.right:
+        return this.canMoveRight();
+      default:
+        return false;
+    }
   };
 
   // Move in direction
@@ -130,5 +172,21 @@ class Character {
     this.tileTo[0] += 1;
     this.timeMoved = currentGameTime;
     this.direction = directions.right;
+  };
+
+  // Move in provided direction
+  moveDirection = (direction, currentGameTime) => {
+    switch (direction) {
+      case directions.up:
+        return this.moveUp(currentGameTime);
+      case directions.down:
+        return this.moveDown(currentGameTime);
+      case directions.left:
+        return this.moveLeft(currentGameTime);
+      case directions.right:
+        return this.moveRight(currentGameTime);
+      default:
+        return false;
+    }
   };
 }

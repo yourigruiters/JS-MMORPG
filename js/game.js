@@ -72,6 +72,22 @@ window.onload = () => {
   };
 
   tileset.src = tilesetURL;
+
+  for (x in tileTypes) {
+    tileTypes[x]["animated"] = tileTypes[x].sprite.length > 1 ? true : false;
+
+    if (tileTypes[x].animated) {
+      var t = 0;
+
+      for (s in tileTypes[x].sprite) {
+        tileTypes[x].sprite[s]["start"] = t;
+        t += tileTypes[x].sprite[s].d;
+        tileTypes[x].sprite[s]["end"] = t;
+      }
+
+      tileTypes[x]["spriteDuration"] = t;
+    }
+  }
 };
 
 // Helper functions
@@ -111,15 +127,6 @@ drawGame = () => {
     // Change player.tileFrom[1] > X && --- X is given value, should change if implementing map decoration
     // toIndex returns index of tile - 0 (blocked) or 1 (moveable)
     movePlayer(currentFrameTime);
-
-    // Check if tileFrom = tileTo
-    // Set timeMoved to currentFrameTime when moving
-    if (
-      player.tileFrom[0] != player.tileTo[0] ||
-      player.tileFrom[1] != player.tileTo[1]
-    ) {
-      player.timeMoved = currentFrameTime;
-    }
   }
 
   // Call viewport update function providing character position as parameters
@@ -132,7 +139,7 @@ drawGame = () => {
   drawBackground();
 
   // Culling (Draw tiles visible to player)
-  drawCullingMap();
+  drawCullingMap(currentFrameTime);
 
   // Draw player
   drawPlayer();
