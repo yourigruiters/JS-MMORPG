@@ -17,7 +17,7 @@ class Character {
     this.delayMove[floorTypes.conveyorL] = 200;
     this.delayMove[floorTypes.conveyorR] = 200;
 
-    this.direction = directions.up;
+    this.direction = directions.down;
 
     // Player sprite
     this.sprites = {};
@@ -35,8 +35,6 @@ class Character {
       tileW * x + (tileW - this.dimensions[0]) / 2,
       tileH * y + (tileH - this.dimensions[1]) / 2
     ];
-    // this.position start = [45][45]
-    // One step to right makes it: [85][45]
   };
 
   // Process movement of the character
@@ -49,6 +47,7 @@ class Character {
       return false;
     }
 
+    // Speed at which a chatarcter moves on different tiles
     let moveSpeed = this.delayMove[
       tileTypes[tileMap[toIndex(this.tileFrom[0], this.tileFrom[1])]].floor
     ];
@@ -56,8 +55,7 @@ class Character {
     // If character wants to move:
     // Check if time elapsed is greater than time to move a specific tile speed
     if (currentFrameTime - this.timeMoved >= moveSpeed) {
-      // If this is the case, should have reached destination tile
-      // (I believe, wait for next drawGame to respond)
+      // If this is the case, should have reached destination tile - ensure it there.
       this.placeAt(this.tileTo[0], this.tileTo[1]);
 
       // Check if there is an entry for the tileIndex in the event list and call event for this character
@@ -65,6 +63,7 @@ class Character {
         typeof tileEvents[toIndex(this.tileTo[0], this.tileTo[1])] !==
         "undefined"
       ) {
+        // Call the function on the eventList - Pass this (user)
         tileEvents[toIndex(this.tileTo[0], this.tileTo[1])](this);
       }
       // Check tiletype of character after completed a move (for special types)

@@ -5,13 +5,13 @@ drawBackground = () => {
 };
 
 // CULLING (Draw visible tiles)
-drawCullingMap = currentFrameTime => {
+drawCullingMap = () => {
   // 0 (blocked) or 1 (moveable)
   for (let y = viewport.startTile[1]; y <= viewport.endTile[1]; y++) {
     for (let x = viewport.startTile[0]; x <= viewport.endTile[0]; x++) {
       let tile = tileTypes[tileMap[toIndex(x, y)]];
       let sprite = getFrame(
-        tile.sprite,
+        tile.sprites,
         tile.spriteDuration,
         gameTime,
         tile.animated
