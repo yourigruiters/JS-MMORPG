@@ -93,11 +93,11 @@ const tileTypes = {
   10: {
     color: "#ccaa00",
     floor: floorTypes.solid,
-    sprite: [{ x: 40, y: 120, w: 40, h: 40 }]
+    sprites: [{ x: 40, y: 120, w: 40, h: 40 }]
   },
   11: {
     color: "#ccaa00",
     floor: floorTypes.solid,
-    sprite: [{ x: 80, y: 120, w: 40, h: 40 }]
+    sprites: [{ x: 80, y: 120, w: 40, h: 40 }]
   }
 };

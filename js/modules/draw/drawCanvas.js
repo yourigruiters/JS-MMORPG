@@ -7,9 +7,10 @@ drawBackground = () => {
 // CULLING (Draw visible tiles)
 drawCullingMap = () => {
   // After updating the viewport, find the current tile and moving to
-  //
+  // Current tile
   let playerRoof1 =
     mapTileData.map[toIndex(player.tileFrom[0], player.tileFrom[1])].roof;
+  // Moving to tile
   let playerRoof2 =
     mapTileData.map[toIndex(player.tileTo[0], player.tileTo[1])].roof;
 
@@ -44,7 +45,7 @@ drawCullingMap = () => {
       ) {
         tile = tileTypes[mapTileData.map[toIndex(x, y)].roofType];
         sprite = getFrame(
-          tile.sprite,
+          tile.sprites,
           tile.spriteDuration,
           gameTime,
           tile.animated

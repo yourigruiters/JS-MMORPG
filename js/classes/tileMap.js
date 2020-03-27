@@ -9,6 +9,7 @@ class TileMap {
 
   //Generate the map
   //Dimensions, width and height
+  //D = array containing the tileType id to use for each map tile
   buildMapFromData = (d, w, h) => {
     this.w = w;
     this.h = h;

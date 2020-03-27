@@ -427,5 +427,3 @@ const map = [
   0,
   0
 ];
-
-const mapTileData = new TileMap();

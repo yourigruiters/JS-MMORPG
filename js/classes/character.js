@@ -73,7 +73,7 @@ class Character {
       // Check tiletype of character after completed a move (for special types)
       let tileFloor =
         tileTypes[
-          mapTileData.map[toIndex(this.tileFrom[0], this.tileFrom[1])].tile
+          mapTileData.map[toIndex(this.tileFrom[0], this.tileFrom[1])].type
         ].floor;
 
       if (tileFloor === floorTypes.ice) {
@@ -133,7 +133,7 @@ class Character {
     // Meaning at solid object we cannot move (water)
     if (
       typeof this.delayMove[
-        tileTypes[mapTileData.map[toIndex(x, y)].tile].floor
+        tileTypes[mapTileData.map[toIndex(x, y)].type].floor
       ] === "undefined"
     ) {
       return false;

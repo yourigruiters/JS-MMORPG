@@ -1,5 +1,5 @@
 // Tile Class - Will be represented by an instance of this class.
-// UPDATE: CHANGE TO CLASS - Optionally a tile event method
+// Optionally a tile event method
 class Tile {
   constructor(tx, ty, tt) {
     this.x = tx;

@@ -36,6 +36,8 @@ const directions = {
   left: 3
 };
 
+// Create tileMap
+const mapTileData = new TileMap();
 // Create viewport using class
 let viewport = new Viewport();
 // Create player using class
@@ -118,6 +120,10 @@ window.onload = () => {
   // Build map data and add roofs
   mapTileData.buildMapFromData(map, mapW, mapH);
   mapTileData.addRoofs(roofList);
+  // Example of eventEnter system
+  mapTileData.map[2 * mapW + 2].eventEnter = function() {
+    console.log("Entered tile 2,2");
+  };
 };
 
 // Helper functions
