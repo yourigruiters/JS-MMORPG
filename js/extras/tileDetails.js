@@ -89,5 +89,15 @@ const tileTypes = {
       { x: 200, y: 160, w: 40, h: 40, d: 200 },
       { x: 200, y: 200, w: 40, h: 40, d: 200 }
     ]
+  },
+  10: {
+    color: "#ccaa00",
+    floor: floorTypes.solid,
+    sprite: [{ x: 40, y: 120, w: 40, h: 40 }]
+  },
+  11: {
+    color: "#ccaa00",
+    floor: floorTypes.solid,
+    sprite: [{ x: 80, y: 120, w: 40, h: 40 }]
   }
 };

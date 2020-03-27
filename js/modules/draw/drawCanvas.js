@@ -6,10 +6,17 @@ drawBackground = () => {
 
 // CULLING (Draw visible tiles)
 drawCullingMap = () => {
+  // After updating the viewport, find the current tile and moving to
+  //
+  let playerRoof1 =
+    mapTileData.map[toIndex(player.tileFrom[0], player.tileFrom[1])].roof;
+  let playerRoof2 =
+    mapTileData.map[toIndex(player.tileTo[0], player.tileTo[1])].roof;
+
   // 0 (blocked) or 1 (moveable)
   for (let y = viewport.startTile[1]; y <= viewport.endTile[1]; y++) {
     for (let x = viewport.startTile[0]; x <= viewport.endTile[0]; x++) {
-      let tile = tileTypes[tileMap[toIndex(x, y)]];
+      let tile = tileTypes[mapTileData.map[toIndex(x, y)].type];
       let sprite = getFrame(
         tile.sprites,
         tile.spriteDuration,
@@ -29,6 +36,32 @@ drawCullingMap = () => {
         tileW,
         tileH
       );
+
+      if (
+        mapTileData.map[toIndex(x, y)].roofType != 0 &&
+        mapTileData.map[toIndex(x, y)].roof != playerRoof1 &&
+        mapTileData.map[toIndex(x, y)].roof != playerRoof2
+      ) {
+        tile = tileTypes[mapTileData.map[toIndex(x, y)].roofType];
+        sprite = getFrame(
+          tile.sprite,
+          tile.spriteDuration,
+          gameTime,
+          tile.animated
+        );
+
+        game.drawImage(
+          tileset,
+          sprite.x,
+          sprite.y,
+          sprite.w,
+          sprite.h,
+          viewport.offset[0] + x * tileW,
+          viewport.offset[1] + (y + tileH),
+          tileW,
+          tileH
+        );
+      }
     }
   }
 };

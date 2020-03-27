@@ -114,6 +114,10 @@ window.onload = () => {
       tileTypes[tileType]["spriteDuration"] = totalDuration;
     }
   }
+
+  // Build map data and add roofs
+  mapTileData.buildMapFromData(map, mapW, mapH);
+  mapTileData.addRoofs(roofList);
 };
 
 // Helper functions

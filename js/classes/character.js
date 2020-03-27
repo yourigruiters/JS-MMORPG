@@ -49,7 +49,9 @@ class Character {
 
     // Speed at which a chatarcter moves on different tiles
     let moveSpeed = this.delayMove[
-      tileTypes[tileMap[toIndex(this.tileFrom[0], this.tileFrom[1])]].floor
+      tileTypes[
+        mapTileData.map[toIndex(this.tileFrom[0], this.tileFrom[1])].type
+      ].floor
     ];
 
     // If character wants to move:
@@ -58,17 +60,21 @@ class Character {
       // If this is the case, should have reached destination tile - ensure it there.
       this.placeAt(this.tileTo[0], this.tileTo[1]);
 
-      // Check if there is an entry for the tileIndex in the event list and call event for this character
+      // Check eventHandler of tile the character is reacher, if method is specified it is called
       if (
-        typeof tileEvents[toIndex(this.tileTo[0], this.tileTo[1])] !==
-        "undefined"
+        mapTileData.map[toIndex(this.tileTo[0], this.tileTo[1])].eventEnter !=
+        null
       ) {
-        // Call the function on the eventList - Pass this (user)
-        tileEvents[toIndex(this.tileTo[0], this.tileTo[1])](this);
+        mapTileData.map[toIndex(this.tileTo[0], this.tileTo[1])].eventEnter(
+          this
+        );
       }
+
       // Check tiletype of character after completed a move (for special types)
       let tileFloor =
-        tileTypes[tileMap[toIndex(this.tileFrom[0], this.tileFrom[1])]].floor;
+        tileTypes[
+          mapTileData.map[toIndex(this.tileFrom[0], this.tileFrom[1])].tile
+        ].floor;
 
       if (tileFloor === floorTypes.ice) {
         if (this.canMoveDirection(this.direction)) {
@@ -126,8 +132,9 @@ class Character {
     // Check if tileType is in delayMove list to see if we can move
     // Meaning at solid object we cannot move (water)
     if (
-      typeof this.delayMove[tileTypes[tileMap[toIndex(x, y)]].floor] ===
-      "undefined"
+      typeof this.delayMove[
+        tileTypes[mapTileData.map[toIndex(x, y)].tile].floor
+      ] === "undefined"
     ) {
       return false;
     } else {
