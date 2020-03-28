@@ -1,3 +1,57 @@
+// Object collision types
+const objectCollision = {
+  none: 0,
+  solid: 1
+};
+
+// ObjectTypes
+const objectTypes = {
+  1: {
+    name: "Box",
+    sprite: [{ x: 40, y: 160, w: 40, h: 40 }],
+    offset: [0, 0],
+    collision: objectCollision.solid,
+    zIndex: 1
+  },
+  2: {
+    name: "Broken Box",
+    sprite: [{ x: 40, y: 200, w: 40, h: 40 }],
+    offset: [0, 0],
+    collision: objectCollision.none,
+    zIndex: 1
+  },
+  3: {
+    name: "Box",
+    sprite: [{ x: 80, y: 160, w: 80, h: 80 }],
+    offset: [-40, -40],
+    collision: objectCollision.solid,
+    zIndex: 3
+  }
+};
+
+// UPDATE: Change to class
+// Store MapObject, stores maptile and type
+class MapObject {
+  constructor(nt) {
+    this.x = 0;
+    this.y = 0;
+    this.type = nt;
+  }
+
+  // Method to place object at specific tile position.
+  // If previously placed, destroy the object at current tile
+  placeAt = (nx, ny) => {
+    if (mapTileData.map[toIndex(this.x, this.y)].object === this) {
+      mapTileData.map[toIndex(this.x, this.y)].object = null;
+    }
+
+    this.x = nx;
+    this.y = ny;
+
+    mapTileData.map[toIndex(nx, ny)].object = this;
+  };
+}
+
 // Floortypes
 const floorTypes = {
   solid: 0,

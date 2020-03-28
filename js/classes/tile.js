@@ -8,5 +8,6 @@ class Tile {
     this.roof = null;
     this.roofType = 0;
     this.eventEnter = null;
+    this.object = null;
   }
 }

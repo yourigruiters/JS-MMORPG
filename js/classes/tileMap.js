@@ -5,6 +5,7 @@ class TileMap {
     this.map = [];
     this.w = 0;
     this.h = 0;
+    this.levels = 4; // Should calculate this dynamicly, amount of layers
   }
 
   //Generate the map

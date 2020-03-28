@@ -137,10 +137,19 @@ class Character {
       ] === "undefined"
     ) {
       return false;
-    } else {
-      // We can move to desired tile
-      return true;
     }
+
+    // Test if tile contains an object, check if collisiontype is solid.
+    // If solid character cannot move
+    if (mapTileData.map[toIndex(x, y)].object != null) {
+      var o = mapTileData.map[toIndex(x, y)].object;
+      if (objectTypes[o.type].collision == objectCollision.solid) {
+        return false;
+      }
+    }
+
+    // We can move to desired tile
+    return true;
   };
 
   // Check if character can move in each of possible directions

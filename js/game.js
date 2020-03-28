@@ -130,6 +130,31 @@ window.onload = () => {
   mapTileData.map[2 * mapW + 2].eventEnter = function() {
     console.log("Entered tile 2,2");
   };
+
+  // Example ojbects
+  let mo1 = new MapObject(1);
+  mo1.placeAt(2, 4);
+  let mo2 = new MapObject(2);
+  mo2.placeAt(2, 3);
+
+  let mo11 = new MapObject(1);
+  mo11.placeAt(6, 4);
+  let mo12 = new MapObject(2);
+  mo12.placeAt(7, 4);
+
+  let mo4 = new MapObject(3);
+  mo4.placeAt(4, 5);
+  let mo5 = new MapObject(3);
+  mo5.placeAt(4, 8);
+  let mo6 = new MapObject(3);
+  mo6.placeAt(4, 11);
+
+  let mo7 = new MapObject(3);
+  mo7.placeAt(2, 6);
+  let mo8 = new MapObject(3);
+  mo8.placeAt(2, 9);
+  let mo9 = new MapObject(3);
+  mo9.placeAt(2, 12);
 };
 
 // Drawing of the game
@@ -180,9 +205,6 @@ drawGame = () => {
 
   // Culling (Draw tiles visible to player)
   drawCullingMap(currentFrameTime);
-
-  // Draw player
-  drawPlayer();
 
   // FPS counter
   drawFPSCounter();
