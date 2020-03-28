@@ -1,5 +1,5 @@
-// UPDATE: CHANGE TO CLASS
-// TileMap Class used for managing and drawing the map
+// // UPDATE: CHANGE TO CLASS
+// // TileMap Class used for managing and drawing the map
 class TileMap {
   constructor() {
     this.map = [];

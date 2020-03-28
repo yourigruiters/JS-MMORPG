@@ -1,15 +1,15 @@
 // Game variables
 let canvas = null;
-let game = null;
+let ctx = null;
 
 // Gametime and speed information
 let gameTime = 0;
 
 let gameSpeeds = [
-  { name: "normal", multi: 1 },
-  { name: "slow", multi: 0.3 },
-  { name: "fast", multi: 3 },
-  { name: "paused", multi: 0 }
+  { name: "normal", mult: 1 },
+  { name: "slow", mult: 0.3 },
+  { name: "fast", mult: 3 },
+  { name: "paused", mult: 0 }
 ];
 
 let currentGameSpeed = 0;
@@ -43,15 +43,21 @@ let viewport = new Viewport();
 // Create player using class
 let player = new Character();
 
+// Helper functions
+// Function: return index of tile character is moving to
+toIndex = (x, y) => {
+  return y * mapW + x;
+};
+
 // When game is loaded
 window.onload = () => {
   // Create game and start canvas
   canvas = document.getElementById("canvas");
-  game = canvas.getContext("2d");
+  ctx = canvas.getContext("2d");
   requestAnimationFrame(drawGame);
 
   // Font details
-  game.font = "normal 15px sans-serif";
+  ctx.font = "normal 15px sans-serif";
 
   // Checking for player movement
   // Key pressed
@@ -84,8 +90,8 @@ window.onload = () => {
 
   // If error in loading tileset - destroy game
   tileset.onerror = () => {
-    game = null;
-    alert("Failed loading");
+    ctx = null;
+    alert("Failed loading tileset image");
   };
 
   // Set variable to true and load tileset
@@ -118,7 +124,7 @@ window.onload = () => {
   }
 
   // Build map data and add roofs
-  mapTileData.buildMapFromData(map, mapW, mapH);
+  mapTileData.buildMapFromData(gameMap, mapW, mapH);
   mapTileData.addRoofs(roofList);
   // Example of eventEnter system
   mapTileData.map[2 * mapW + 2].eventEnter = function() {
@@ -126,15 +132,9 @@ window.onload = () => {
   };
 };
 
-// Helper functions
-// Function: return index of tile character is moving to
-toIndex = (x, y) => {
-  return y * mapW + x;
-};
-
 // Drawing of the game
 drawGame = () => {
-  if (game === null) {
+  if (ctx === null) {
     return;
   }
 
@@ -147,7 +147,7 @@ drawGame = () => {
   let currentFrameTime = Date.now();
   // timeElapsed is for future purposes (elapsed time since last Frametime);
   let timeElapsed = currentFrameTime - lastFrameTime;
-  gameTime += Math.floor(timeElapsed * gameSpeeds[currentGameSpeed].multi);
+  gameTime += Math.floor(timeElapsed * gameSpeeds[currentGameSpeed].mult);
 
   let sec = Math.floor(Date.now() / 1000);
 
@@ -162,7 +162,7 @@ drawGame = () => {
   // Check if player is able to move with processMovement
   if (
     !player.processMovement(gameTime) &&
-    gameSpeeds[currentGameSpeed].multi != 0
+    gameSpeeds[currentGameSpeed].mult != 0
   ) {
     // Change player.tileFrom[1] > X && --- X is given value, should change if implementing map decoration
     // toIndex returns index of tile - 0 (blocked) or 1 (moveable)

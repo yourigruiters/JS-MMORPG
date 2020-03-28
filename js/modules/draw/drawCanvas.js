@@ -1,7 +1,7 @@
 // Draw background
 drawBackground = () => {
-  game.fillStyle = "#2c3e50";
-  game.fillRect(0, 0, viewport.screen[0], viewport.screen[1]);
+  ctx.fillStyle = "#2c3e50";
+  ctx.fillRect(0, 0, viewport.screen[0], viewport.screen[1]);
 };
 
 // CULLING (Draw visible tiles)
@@ -26,7 +26,7 @@ drawCullingMap = () => {
       );
 
       // Draw tileset image on board
-      game.drawImage(
+      ctx.drawImage(
         tileset,
         sprite.x,
         sprite.y,
@@ -51,14 +51,14 @@ drawCullingMap = () => {
           tile.animated
         );
 
-        game.drawImage(
+        ctx.drawImage(
           tileset,
           sprite.x,
           sprite.y,
           sprite.w,
           sprite.h,
           viewport.offset[0] + x * tileW,
-          viewport.offset[1] + (y + tileH),
+          viewport.offset[1] + y * tileH,
           tileW,
           tileH
         );
@@ -71,7 +71,7 @@ drawCullingMap = () => {
 drawPlayer = () => {
   let sprite = player.sprites[player.direction];
 
-  game.drawImage(
+  ctx.drawImage(
     tileset,
     sprite[0].x,
     sprite[0].y,
@@ -86,9 +86,9 @@ drawPlayer = () => {
 
 // Draw FPS counter
 drawFPSCounter = () => {
-  game.fillStyle = "#ff0000";
-  game.fillText("FPS: " + framesLastSecond, 10, 20);
-  game.fillText(
+  ctx.fillStyle = "#ff0000";
+  ctx.fillText("FPS: " + framesLastSecond, 10, 20);
+  ctx.fillText(
     "Game speed: " + gameSpeeds[currentGameSpeed].name + " -- (s)",
     10,
     40
