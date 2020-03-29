@@ -8,7 +8,6 @@ let gameTime = 0;
 
 let gameSpeeds = [
   { name: "normal", mult: 1 },
-  { name: "slow", mult: 0.3 },
   { name: "fast", mult: 3 },
   { name: "paused", mult: 0 }
 ];
@@ -23,7 +22,10 @@ const mapH = 20; // mapH * tileH = screenHeight
 const tileW = 80; // in PX
 const tileH = 80; // in PX
 // Tileset multiplier for default 40px
-const tileMultiplier = tileW / 40;
+const tileMultiplier = tileW / 80;
+// Improved tiles
+const tileTakeExtra = 1;
+const tileRemoveExtra = 2;
 
 // FPS variables
 let currentSecond = 0;
@@ -62,13 +64,18 @@ window.onload = () => {
   requestAnimationFrame(drawGame);
 
   // Font details
-  ctx.font = "normal 15px sans-serif";
+  ctx.font = "normal 25px sans-serif";
 
   // Check for player movement
   // Key pressed
   window.addEventListener("keydown", e => {
     // Key: arrows
     if (e.keyCode >= 37 && e.keyCode <= 40) {
+      keysDown[e.keyCode] = true;
+    }
+
+    // Key: t (take)
+    if (e.keyCode == 84) {
       keysDown[e.keyCode] = true;
     }
   });
@@ -80,10 +87,19 @@ window.onload = () => {
       keysDown[e.keyCode] = false;
     }
 
-    // Key: s
+    // Key: t (take)
+    if (e.keyCode == 84) {
+      keysDown[e.keyCode] = false;
+    }
+
+    // Key: s (speed)
     if (e.keyCode == 83) {
-      currentGameSpeed =
-        currentGameSpeed >= gameSpeeds.length - 1 ? 0 : currentGameSpeed + 1;
+      currentGameSpeed = currentGameSpeed === 0 ? 1 : 0;
+    }
+
+    // Key: p (pause)
+    if (e.keyCode == 80) {
+      currentGameSpeed = currentGameSpeed === 2 ? 0 : 2;
     }
   });
 
@@ -109,7 +125,7 @@ window.onload = () => {
   // If tileset cannot be loaded provide error
   tileset.onerror = () => {
     ctx = null;
-    alert("Failed loading tileset image");
+    console.log("Failed loading tileset image");
   };
 
   // Set tileset variable to true
@@ -175,6 +191,17 @@ window.onload = () => {
   mo8.placeAt(2, 9);
   let mo9 = new ObjectMap(3);
   mo9.placeAt(2, 12);
+
+  // Example item stack
+
+  for (let i = 3; i < 8; i++) {
+    let ps = new PlacedItemStack(1, 1);
+    ps.placeAt(i, 1);
+  }
+  for (let i = 3; i < 8; i++) {
+    let ps = new PlacedItemStack(1, 1);
+    ps.placeAt(3, i);
+  }
 };
 
 //*** DRAWGAME ***/
@@ -227,6 +254,9 @@ drawGame = () => {
 
   // Draw map (Culling mode - Draw tiles visible to player only)
   drawCullingMap(currentFrameTime);
+
+  // Draw inventory
+  drawInventory();
 
   // Draw FPS counter
   drawFPSCounter();

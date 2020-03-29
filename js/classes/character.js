@@ -5,7 +5,8 @@ class Character {
     this.tileTo = [1, 1]; // Moving to tile
     this.timeMoved = 0; // Time of starting to move
     this.dimensions = [80, 80]; // Size of character
-    this.position = [90, 90]; // Location on map
+    this.position = [80, 80]; // Location on map
+    this.inventory = new Inventory(3); // Inventory with amount of spaces
 
     this.delayMove = {}; // Time needed to move
     // UPDATE: Can the below be some sort of automated?!
@@ -22,10 +23,10 @@ class Character {
     // Player sprites
     // UPDATE: Can the below be updated to animated sprites?
     this.sprites = {};
-    this.sprites[directions.up] = [{ x: 240, y: 160, w: 40, h: 40 }];
-    this.sprites[directions.right] = [{ x: 240, y: 120, w: 40, h: 40 }];
-    this.sprites[directions.down] = [{ x: 240, y: 40, w: 40, h: 40 }];
-    this.sprites[directions.left] = [{ x: 240, y: 80, w: 40, h: 40 }];
+    this.sprites[directions.up] = [{ x: 480, y: 320, w: 80, h: 80 }];
+    this.sprites[directions.right] = [{ x: 480, y: 240, w: 80, h: 80 }];
+    this.sprites[directions.down] = [{ x: 480, y: 80, w: 80, h: 80 }];
+    this.sprites[directions.left] = [{ x: 480, y: 160, w: 80, h: 80 }];
   }
 
   // Set character to specified tile
@@ -217,5 +218,37 @@ class Character {
       default:
         return false;
     }
+  };
+
+  // Pickup item and add to inventory
+  pickUp = () => {
+    // Check if character is moving
+    if (
+      this.tileTo[0] != this.tileFrom[0] ||
+      this.tileTo[1] != this.tileFrom[1]
+    ) {
+      return false;
+    }
+
+    // Check if itemStack on character is defined
+    const itemsStack =
+      tileMapData.map[toIndex(this.tileFrom[0], this.tileFrom[1])].itemStack;
+
+    // If there is an itemStack under character
+    if (itemsStack !== null) {
+      // Calculate how many items remain on the floor
+      const remains = this.inventory.addItems(itemsStack.type, itemsStack.qty);
+
+      // If anything remains leave on map or remove from map
+      if (remains) {
+        itemsStack.qty = remains;
+      } else {
+        tileMapData.map[
+          toIndex(this.tileFrom[0], this.tileFrom[1])
+        ].itemStack = null;
+      }
+    }
+
+    return true;
   };
 }

@@ -8,5 +8,6 @@ class Tile {
     this.roofType = 0; // Rooftype if above is true
     this.eventEnter = null; // Event on entering tile
     this.object = null; // What object is on this tile
+    this.itemStack = null; // Holds placedItemStack on tile
   }
 }
