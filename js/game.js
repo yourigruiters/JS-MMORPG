@@ -87,6 +87,19 @@ window.onload = () => {
     }
   });
 
+  // Check for mouse click
+  canvas.addEventListener("mousedown", e => {
+    const relX = Math.floor(
+      (e.pageX - e.target.offsetLeft - viewport.offset[0]) / 80
+    );
+    const relY = Math.floor(
+      (e.pageY - e.target.offsetTop - viewport.offset[1]) / 80
+    );
+
+    // Log tile information to console
+    console.log(tileMapData.map[toIndex(relX, relY)]);
+  });
+
   // Set viewport: equal to width and height of canvas
   viewport.screen = [canvas.width, canvas.height];
 

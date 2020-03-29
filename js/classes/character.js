@@ -4,7 +4,7 @@ class Character {
     this.tileFrom = [1, 1]; // Current tile
     this.tileTo = [1, 1]; // Moving to tile
     this.timeMoved = 0; // Time of starting to move
-    this.dimensions = [60, 60]; // Size of character
+    this.dimensions = [80, 80]; // Size of character
     this.position = [90, 90]; // Location on map
 
     this.delayMove = {}; // Time needed to move
@@ -22,10 +22,10 @@ class Character {
     // Player sprites
     // UPDATE: Can the below be updated to animated sprites?
     this.sprites = {};
-    this.sprites[directions.up] = [{ x: 0, y: 120, w: 30, h: 30 }];
-    this.sprites[directions.right] = [{ x: 0, y: 150, w: 30, h: 30 }];
-    this.sprites[directions.down] = [{ x: 0, y: 180, w: 30, h: 30 }];
-    this.sprites[directions.left] = [{ x: 0, y: 210, w: 30, h: 30 }];
+    this.sprites[directions.up] = [{ x: 240, y: 160, w: 40, h: 40 }];
+    this.sprites[directions.right] = [{ x: 240, y: 120, w: 40, h: 40 }];
+    this.sprites[directions.down] = [{ x: 240, y: 40, w: 40, h: 40 }];
+    this.sprites[directions.left] = [{ x: 240, y: 80, w: 40, h: 40 }];
   }
 
   // Set character to specified tile
