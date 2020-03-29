@@ -8,21 +8,21 @@ const objectCollision = {
 const objectTypes = {
   1: {
     name: "Box",
-    sprite: [{ x: 80, y: 320, w: 80, h: 80 }],
+    sprite: new Sprite([{ x: 80, y: 320, w: 80, h: 80 }]),
     offset: [0, 0],
     collision: objectCollision.solid,
     zIndex: 1
   },
   2: {
     name: "Broken Box",
-    sprite: [{ x: 80, y: 400, w: 80, h: 80 }],
+    sprite: new Sprite([{ x: 80, y: 400, w: 80, h: 80 }]),
     offset: [0, 0],
     collision: objectCollision.none,
     zIndex: 1
   },
   3: {
     name: "Box",
-    sprite: [{ x: 160, y: 320, w: 160, h: 160 }],
+    sprite: new Sprite([{ x: 160, y: 320, w: 160, h: 160 }]),
     offset: [-40, -40],
     collision: objectCollision.solid,
     zIndex: 3
@@ -47,88 +47,88 @@ const tileTypes = {
   0: {
     color: "#685b48",
     floor: floorTypes.solid,
-    sprites: [{ x: 0, y: 0, w: 80, h: 80 }]
+    sprites: new Sprite([{ x: 0, y: 0, w: 80, h: 80 }])
   },
   1: {
     color: "#5aa457",
     floor: floorTypes.grass,
-    sprites: [{ x: 80, y: 0, w: 80, h: 80 }]
+    sprites: new Sprite([{ x: 80, y: 0, w: 80, h: 80 }])
   },
   2: {
     color: "#e8bd7a",
     floor: floorTypes.path,
-    sprites: [{ x: 160, y: 0, w: 80, h: 80 }]
+    sprites: new Sprite([{ x: 160, y: 0, w: 80, h: 80 }])
   },
   3: {
     color: "#286625",
     floor: floorTypes.solid,
-    sprites: [{ x: 240, y: 0, w: 80, h: 80 }]
+    sprites: new Sprite([{ x: 240, y: 0, w: 80, h: 80 }])
   },
   4: {
     color: "#678fd9",
     floor: floorTypes.water,
-    sprites: [
+    sprites: new Sprite([
       { x: 320, y: 0, w: 80, h: 80, d: 200 },
       { x: 400, y: 0, w: 80, h: 80, d: 200 },
       { x: 320, y: 80, w: 80, h: 80, d: 200 },
       { x: 400, y: 80, w: 80, h: 80, d: 200 },
       { x: 320, y: 80, w: 80, h: 80, d: 200 },
       { x: 400, y: 0, w: 80, h: 80, d: 200 }
-    ]
+    ])
   },
   5: {
     color: "#eeeeff",
     floor: floorTypes.ice,
-    sprites: [{ x: 240, y: 240, w: 80, h: 80 }]
+    sprites: new Sprite([{ x: 240, y: 240, w: 80, h: 80 }])
   },
   6: {
     color: "#cccccc",
     floor: floorTypes.conveyorL,
-    sprites: [
+    sprites: new Sprite([
       { x: 0, y: 80, w: 80, h: 80, d: 200 },
       { x: 80, y: 80, w: 80, h: 80, d: 200 },
       { x: 160, y: 80, w: 80, h: 80, d: 200 },
       { x: 240, y: 80, w: 80, h: 80, d: 200 }
-    ]
+    ])
   },
   7: {
     color: "#cccccc",
     floor: floorTypes.conveyorR,
-    sprites: [
+    sprites: new Sprite([
       { x: 240, y: 160, w: 80, h: 80, d: 200 },
       { x: 160, y: 160, w: 80, h: 80, d: 200 },
       { x: 80, y: 160, w: 80, h: 80, d: 200 },
       { x: 0, y: 160, w: 80, h: 80, d: 200 }
-    ]
+    ])
   },
   8: {
     color: "#cccccc",
     floor: floorTypes.conveyorD,
-    sprites: [
+    sprites: new Sprite([
       { x: 320, y: 400, w: 80, h: 80, d: 200 },
       { x: 320, y: 320, w: 80, h: 80, d: 200 },
       { x: 320, y: 240, w: 80, h: 80, d: 200 },
       { x: 320, y: 160, w: 80, h: 80, d: 200 }
-    ]
+    ])
   },
   9: {
     color: "#cccccc",
     floor: floorTypes.conveyorU,
-    sprites: [
+    sprites: new Sprite([
       { x: 400, y: 160, w: 80, h: 80, d: 200 },
       { x: 400, y: 240, w: 80, h: 80, d: 200 },
       { x: 400, y: 320, w: 80, h: 80, d: 200 },
       { x: 400, y: 400, w: 80, h: 80, d: 200 }
-    ]
+    ])
   },
   10: {
     color: "#ccaa00",
     floor: floorTypes.solid,
-    sprites: [{ x: 80, y: 240, w: 80, h: 80 }]
+    sprites: new Sprite([{ x: 80, y: 240, w: 80, h: 80 }])
   },
   11: {
     color: "#ccaa00",
     floor: floorTypes.solid,
-    sprites: [{ x: 160, y: 240, w: 80, h: 80 }]
+    sprites: new Sprite([{ x: 160, y: 240, w: 80, h: 80 }])
   }
 };
