@@ -1,14 +1,14 @@
-// Animation of tiles/frames
+// Draw animations
 getFrame = (sprites, duration, time, animated) => {
-  // If sprite is not animated then stop
-  // This information comes from window.onload @ sprite handling
+  // Check if provided is animated
   if (!animated) {
     return sprites[0];
   }
 
+  // GameTime % duration
   time = time % duration;
 
-  // Show every sprite
+  // Cycle through sprites
   for (sprite in sprites) {
     if (sprites[sprite].end >= time) {
       return sprites[sprite];

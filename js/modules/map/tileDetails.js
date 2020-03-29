@@ -1,10 +1,10 @@
-// Object collision types
+// Collision types of objects
 const objectCollision = {
   none: 0,
   solid: 1
 };
 
-// ObjectTypes
+// Type of objects
 const objectTypes = {
   1: {
     name: "Box",
@@ -29,30 +29,7 @@ const objectTypes = {
   }
 };
 
-// UPDATE: Change to class
-// Store MapObject, stores maptile and type
-class MapObject {
-  constructor(nt) {
-    this.x = 0;
-    this.y = 0;
-    this.type = nt;
-  }
-
-  // Method to place object at specific tile position.
-  // If previously placed, destroy the object at current tile
-  placeAt = (nx, ny) => {
-    if (mapTileData.map[toIndex(this.x, this.y)].object === this) {
-      mapTileData.map[toIndex(this.x, this.y)].object = null;
-    }
-
-    this.x = nx;
-    this.y = ny;
-
-    mapTileData.map[toIndex(nx, ny)].object = this;
-  };
-}
-
-// Floortypes
+// Type of floors
 const floorTypes = {
   solid: 0,
   path: 1,
@@ -65,7 +42,7 @@ const floorTypes = {
   grass: 8
 };
 
-// Tiletypes
+// Type of tiles
 const tileTypes = {
   0: {
     color: "#685b48",

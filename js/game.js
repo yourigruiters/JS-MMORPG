@@ -1,3 +1,4 @@
+//*** GLOBAL GAME VARIABLES ***/
 // Game variables
 let canvas = null;
 let ctx = null;
@@ -15,12 +16,14 @@ let gameSpeeds = [
 let currentGameSpeed = 0;
 
 // Map variables
+// Size of map
+const mapW = 20; // mapW * tileW = screenWidth
+const mapH = 20; // mapH * tileH = screenHeight
 // Size of tiles
-const tileW = 80; // 40px
-const tileH = 80; // 40px
-// Size of screen (Multiplied by tilesize)
-const mapW = 20; // 800px
-const mapH = 20; // 800px
+const tileW = 80; // in PX
+const tileH = 80; // in PX
+// Tileset multiplier for default 40px
+const tileMultiplier = tileW / 40;
 
 // FPS variables
 let currentSecond = 0;
@@ -28,7 +31,7 @@ let frameCount = 0;
 let framesLastSecond = 0;
 let lastFrameTime = 0;
 
-// Directions
+// Possible directions
 const directions = {
   up: 0,
   right: 1,
@@ -36,20 +39,22 @@ const directions = {
   left: 3
 };
 
+//*** CLASS VARIABLES ***/
 // Create tileMap
-const mapTileData = new TileMap();
+const tileMapData = new TileMap();
 // Create viewport using class
 let viewport = new Viewport();
 // Create player using class
 let player = new Character();
 
-// Helper functions
+//*** HELPER FUNCTION ***/
 // Function: return index of tile character is moving to
 toIndex = (x, y) => {
   return y * mapW + x;
 };
 
-// When game is loaded
+//*** WINDOW.ONLOAD ***/
+// When the game is first loaded (Single instances)
 window.onload = () => {
   // Create game and start canvas
   canvas = document.getElementById("canvas");
@@ -59,10 +64,10 @@ window.onload = () => {
   // Font details
   ctx.font = "normal 15px sans-serif";
 
-  // Checking for player movement
+  // Check for player movement
   // Key pressed
   window.addEventListener("keydown", e => {
-    // Arrowkeys
+    // Key: arrows
     if (e.keyCode >= 37 && e.keyCode <= 40) {
       keysDown[e.keyCode] = true;
     }
@@ -70,31 +75,31 @@ window.onload = () => {
 
   // Key released
   window.addEventListener("keyup", e => {
-    // ArrowKeys
+    // Key: arrows
     if (e.keyCode >= 37 && e.keyCode <= 40) {
       keysDown[e.keyCode] = false;
     }
 
-    // Button S
+    // Key: s
     if (e.keyCode == 83) {
       currentGameSpeed =
         currentGameSpeed >= gameSpeeds.length - 1 ? 0 : currentGameSpeed + 1;
     }
   });
 
-  // Set viewport equal to canvas width and height
+  // Set viewport: equal to width and height of canvas
   viewport.screen = [canvas.width, canvas.height];
 
   // Loading in tileset
   tileset = new Image();
 
-  // If error in loading tileset - destroy game
+  // If tileset cannot be loaded provide error
   tileset.onerror = () => {
     ctx = null;
     alert("Failed loading tileset image");
   };
 
-  // Set variable to true and load tileset
+  // Set tileset variable to true
   tileset.onload = () => {
     tilesetLoaded = true;
   };
@@ -102,14 +107,15 @@ window.onload = () => {
   // Load tileset
   tileset.src = tilesetURL;
 
-  // Check every tileType in tileTypes
+  // Check every tileType
   for (tileType in tileTypes) {
-    // If more than one sprite then add animated for animations
+    // Check if tileType has multiple sprites (Animated sprite)
     tileTypes[tileType]["animated"] =
       tileTypes[tileType].sprites.length > 1 ? true : false;
 
     // If tileType is animated
     if (tileTypes[tileType].animated) {
+      // Calculate total duration of sprite
       let totalDuration = 0;
 
       for (sprite in tileTypes[tileType].sprites) {
@@ -123,46 +129,49 @@ window.onload = () => {
     }
   }
 
-  // Build map data and add roofs
-  mapTileData.buildMapFromData(gameMap, mapW, mapH);
-  mapTileData.addRoofs(roofList);
+  // Build map and add roofs
+  tileMapData.buildMapFromData(gameMap, mapW, mapH);
+  tileMapData.buildRoofsFromData(roofList);
+
   // Example of eventEnter system
-  mapTileData.map[2 * mapW + 2].eventEnter = function() {
+  tileMapData.map[2 * mapW + 2].eventEnter = function() {
     console.log("Entered tile 2,2");
   };
 
-  // Example ojbects
-  let mo1 = new MapObject(1);
+  // Example of objects placing on screen
+  let mo1 = new ObjectMap(1);
   mo1.placeAt(2, 4);
-  let mo2 = new MapObject(2);
+  let mo2 = new ObjectMap(2);
   mo2.placeAt(2, 3);
 
-  let mo11 = new MapObject(1);
+  let mo11 = new ObjectMap(1);
   mo11.placeAt(6, 4);
-  let mo12 = new MapObject(2);
+  let mo12 = new ObjectMap(2);
   mo12.placeAt(7, 4);
 
-  let mo4 = new MapObject(3);
+  let mo4 = new ObjectMap(3);
   mo4.placeAt(4, 5);
-  let mo5 = new MapObject(3);
+  let mo5 = new ObjectMap(3);
   mo5.placeAt(4, 8);
-  let mo6 = new MapObject(3);
+  let mo6 = new ObjectMap(3);
   mo6.placeAt(4, 11);
 
-  let mo7 = new MapObject(3);
+  let mo7 = new ObjectMap(3);
   mo7.placeAt(2, 6);
-  let mo8 = new MapObject(3);
+  let mo8 = new ObjectMap(3);
   mo8.placeAt(2, 9);
-  let mo9 = new MapObject(3);
+  let mo9 = new ObjectMap(3);
   mo9.placeAt(2, 12);
 };
 
-// Drawing of the game
+//*** DRAWGAME ***/
+// Draw the game (Returning instances)
 drawGame = () => {
   if (ctx === null) {
     return;
   }
 
+  // Check if tileset has loaded properly, else try again
   if (!tilesetLoaded) {
     requestAnimationFrame(drawGame);
     return;
@@ -170,12 +179,14 @@ drawGame = () => {
 
   // Current time in MS
   let currentFrameTime = Date.now();
-  // timeElapsed is for future purposes (elapsed time since last Frametime);
+  // Set timeElapsed is time since last Frametime);
   let timeElapsed = currentFrameTime - lastFrameTime;
   gameTime += Math.floor(timeElapsed * gameSpeeds[currentGameSpeed].mult);
 
+  // Set second
   let sec = Math.floor(Date.now() / 1000);
 
+  // Check framecount (Should be 60fps)
   if (sec != currentSecond) {
     currentSecond = sec;
     framesLastSecond = frameCount;
@@ -184,17 +195,15 @@ drawGame = () => {
     frameCount++;
   }
 
-  // Check if player is able to move with processMovement
+  // Check if player can move
   if (
     !player.processMovement(gameTime) &&
     gameSpeeds[currentGameSpeed].mult != 0
   ) {
-    // Change player.tileFrom[1] > X && --- X is given value, should change if implementing map decoration
-    // toIndex returns index of tile - 0 (blocked) or 1 (moveable)
     movePlayer(gameTime);
   }
 
-  // Call viewport update function providing character position as parameters
+  // Update viewport on the players current positions
   viewport.update(
     player.position[0] + player.dimensions[0] / 2,
     player.position[1] + player.dimensions[1] / 2
@@ -203,14 +212,14 @@ drawGame = () => {
   // Draw background
   drawBackground();
 
-  // Culling (Draw tiles visible to player)
+  // Draw map (Culling mode - Draw tiles visible to player only)
   drawCullingMap(currentFrameTime);
 
-  // FPS counter
+  // Draw FPS counter
   drawFPSCounter();
 
-  // Update global variable lastFrameTime
+  // Update lastFrameTime (Global variable)
   lastFrameTime = currentFrameTime;
-  // DrawGame again and again
+  // Re-drawing of game
   requestAnimationFrame(drawGame);
 };

@@ -1,14 +1,14 @@
-// Character class
-
+// Character class holds all character configurations
 class Character {
   constructor() {
     this.tileFrom = [1, 1]; // Current tile
-    this.tileTo = [1, 1]; // Next tile
+    this.tileTo = [1, 1]; // Moving to tile
     this.timeMoved = 0; // Time of starting to move
-    this.dimensions = [60, 60]; // Character size
-    this.position = [90, 90]; // Position on map
+    this.dimensions = [60, 60]; // Size of character
+    this.position = [90, 90]; // Location on map
 
-    this.delayMove = {}; // Time to move to next tile
+    this.delayMove = {}; // Time needed to move
+    // UPDATE: Can the below be some sort of automated?!
     this.delayMove[floorTypes.path] = 400;
     this.delayMove[floorTypes.grass] = 700;
     this.delayMove[floorTypes.ice] = 300;
@@ -19,7 +19,8 @@ class Character {
 
     this.direction = directions.down;
 
-    // Player sprite
+    // Player sprites
+    // UPDATE: Can the below be updated to animated sprites?
     this.sprites = {};
     this.sprites[directions.up] = [{ x: 0, y: 120, w: 30, h: 30 }];
     this.sprites[directions.right] = [{ x: 0, y: 150, w: 30, h: 30 }];
@@ -27,7 +28,7 @@ class Character {
     this.sprites[directions.left] = [{ x: 0, y: 210, w: 30, h: 30 }];
   }
 
-  // Place caracter at specified tile
+  // Set character to specified tile
   placeAt = (x, y) => {
     this.tileFrom = [x, y];
     this.tileTo = [x, y];
@@ -47,33 +48,34 @@ class Character {
       return false;
     }
 
-    // Speed at which a chatarcter moves on different tiles
+    // Speed of character movement on current tile type
     let moveSpeed = this.delayMove[
       tileTypes[
-        mapTileData.map[toIndex(this.tileFrom[0], this.tileFrom[1])].type
+        tileMapData.map[toIndex(this.tileFrom[0], this.tileFrom[1])].type
       ].floor
     ];
 
-    // If character wants to move:
+    // If character wants to move
     // Check if time elapsed is greater than time to move a specific tile speed
     if (currentFrameTime - this.timeMoved >= moveSpeed) {
-      // If this is the case, should have reached destination tile - ensure it there.
+      // If true, should have reached destination (place it there to be certain)
       this.placeAt(this.tileTo[0], this.tileTo[1]);
 
-      // Check eventHandler of tile the character is reacher, if method is specified it is called
+      // Check if reached tile as event, call even with character (this) if true
       if (
-        mapTileData.map[toIndex(this.tileTo[0], this.tileTo[1])].eventEnter !=
+        tileMapData.map[toIndex(this.tileTo[0], this.tileTo[1])].eventEnter !=
         null
       ) {
-        mapTileData.map[toIndex(this.tileTo[0], this.tileTo[1])].eventEnter(
+        tileMapData.map[toIndex(this.tileTo[0], this.tileTo[1])].eventEnter(
           this
         );
       }
 
-      // Check tiletype of character after completed a move (for special types)
+      // Check floor type of character (Grass, sand, water AS 0, 1, 2)
+      // Use for special types
       let tileFloor =
         tileTypes[
-          mapTileData.map[toIndex(this.tileFrom[0], this.tileFrom[1])].type
+          tileMapData.map[toIndex(this.tileFrom[0], this.tileFrom[1])].type
         ].floor;
 
       if (tileFloor === floorTypes.ice) {
@@ -90,22 +92,22 @@ class Character {
         this.moveDown(currentFrameTime);
       }
     } else {
-      // Calculate pixel position of the character on the map (Equal to placeAt() above)
-      // Gives pixel position of the character at their starting tile (tileFrom value)
+      // Use for default types
+      // Calculate pixel position of character
       this.position[0] =
         this.tileFrom[0] * tileW + (tileW - this.dimensions[0]) / 2;
       this.position[1] =
         this.tileFrom[1] * tileH + (tileH - this.dimensions[1]) / 2;
 
-      // Moving horizontally or vertically?
-      // Horizontally
+      // Check if moving horizontally or vertically
+      // Moving horizontal
       if (this.tileTo[0] != this.tileFrom[0]) {
         let difference =
           (tileW / moveSpeed) * (currentFrameTime - this.timeMoved);
         this.position[0] +=
           this.tileTo[0] < this.tileFrom[0] ? 0 - difference : difference;
       }
-      // Vertically
+      // Moving vertical
       if (this.tileTo[1] != this.tileFrom[1]) {
         let difference =
           (tileH / moveSpeed) * (currentFrameTime - this.timeMoved);
@@ -113,60 +115,61 @@ class Character {
           this.tileTo[1] < this.tileFrom[1] ? 0 - difference : difference;
       }
 
-      // Round position value to nearest number
+      // Round position values to nearest number
       this.position[0] = Math.round(this.position[0]);
       this.position[1] = Math.round(this.position[1]);
     }
 
-    // Movement processing has been done
     return true;
   };
 
-  // Check if character can move to mapTile on x,y coordinate
+  // Check if character can move to mapTile on specified coordinate
   canMoveTo = (x, y) => {
-    // Check if the coordinates fall out of map bound
+    // Check if coordinates fall out of map bound
     if (x < 0 || x >= mapW || y < 0 || y >= mapH) {
       return false;
     }
 
-    // Check if tileType is in delayMove list to see if we can move
-    // Meaning at solid object we cannot move (water)
+    // Check if tileType is solid by checking delayMove options
     if (
       typeof this.delayMove[
-        tileTypes[mapTileData.map[toIndex(x, y)].type].floor
+        tileTypes[tileMapData.map[toIndex(x, y)].type].floor
       ] === "undefined"
     ) {
       return false;
     }
 
-    // Test if tile contains an object, check if collisiontype is solid.
-    // If solid character cannot move
-    if (mapTileData.map[toIndex(x, y)].object != null) {
-      var o = mapTileData.map[toIndex(x, y)].object;
-      if (objectTypes[o.type].collision == objectCollision.solid) {
+    // Check if object on character is solid
+    if (tileMapData.map[toIndex(x, y)].object != null) {
+      var object = tileMapData.map[toIndex(x, y)].object;
+      if (objectTypes[object.type].collision == objectCollision.solid) {
         return false;
       }
     }
 
-    // We can move to desired tile
     return true;
   };
 
-  // Check if character can move in each of possible directions
+  // Check if character can move in direction
+  // Make character face that direction, move this to canMoveUp for creating interaction possibility
   canMoveUp = () => {
+    this.direction = directions.up;
     return this.canMoveTo(this.tileFrom[0], this.tileFrom[1] - 1);
   };
   canMoveDown = () => {
+    this.direction = directions.down;
     return this.canMoveTo(this.tileFrom[0], this.tileFrom[1] + 1);
   };
   canMoveLeft = () => {
+    this.direction = directions.left;
     return this.canMoveTo(this.tileFrom[0] - 1, this.tileFrom[1]);
   };
   canMoveRight = () => {
+    this.direction = directions.right;
     return this.canMoveTo(this.tileFrom[0] + 1, this.tileFrom[1]);
   };
 
-  // Check if character can move in the provided direction
+  // Check if character can move in specified direction (Example: Ice floor type)
   canMoveDirection = direction => {
     switch (direction) {
       case directions.up:
@@ -183,26 +186,21 @@ class Character {
   };
 
   // Move in direction
-  // Also face in that direction, move this to canMoveUp for creating interaction possibility
   moveUp = gameTime => {
     this.tileTo[1] -= 1;
     this.timeMoved = gameTime;
-    this.direction = directions.up;
   };
   moveDown = gameTime => {
     this.tileTo[1] += 1;
     this.timeMoved = gameTime;
-    this.direction = directions.down;
   };
   moveLeft = gameTime => {
     this.tileTo[0] -= 1;
     this.timeMoved = gameTime;
-    this.direction = directions.left;
   };
   moveRight = gameTime => {
     this.tileTo[0] += 1;
     this.timeMoved = gameTime;
-    this.direction = directions.right;
   };
 
   // Move in provided direction

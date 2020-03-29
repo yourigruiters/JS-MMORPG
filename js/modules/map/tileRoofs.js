@@ -1,3 +1,4 @@
+// RoofList holds position, size and sprites AS data
 const roofList = [
   {
     x: 5,

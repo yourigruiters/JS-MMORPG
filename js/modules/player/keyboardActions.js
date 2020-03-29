@@ -6,27 +6,15 @@ let keysDown = {
   40: false //down arrow
 };
 
-// Moving player
+// Check if player can move on current gameTime
 movePlayer = gameTime => {
-  if (
-    keysDown[38] && // UP
-    player.canMoveUp()
-  ) {
+  if (keysDown[38] && player.canMoveUp()) {
     player.moveUp(gameTime);
-  } else if (
-    keysDown[40] && // DOWN
-    player.canMoveDown()
-  ) {
+  } else if (keysDown[40] && player.canMoveDown()) {
     player.moveDown(gameTime);
-  } else if (
-    keysDown[37] && // LEFT
-    player.canMoveLeft()
-  ) {
+  } else if (keysDown[37] && player.canMoveLeft()) {
     player.moveLeft(gameTime);
-  } else if (
-    keysDown[39] && // RIGHT
-    player.canMoveRight()
-  ) {
+  } else if (keysDown[39] && player.canMoveRight()) {
     player.moveRight(gameTime);
   }
 };

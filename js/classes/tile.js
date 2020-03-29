@@ -1,13 +1,12 @@
-// Tile Class - Will be represented by an instance of this class.
-// Optionally a tile event method
+// Tile class holds all possible tile atributes
 class Tile {
   constructor(tx, ty, tt) {
     this.x = tx;
     this.y = ty;
-    this.type = tt;
-    this.roof = null;
-    this.roofType = 0;
-    this.eventEnter = null;
-    this.object = null;
+    this.type = tt; // Kind of tile type (Grass, sand, water AS 0, 1, 2)
+    this.roof = null; // Check if roof on this tile
+    this.roofType = 0; // Rooftype if above is true
+    this.eventEnter = null; // Event on entering tile
+    this.object = null; // What object is on this tile
   }
 }
