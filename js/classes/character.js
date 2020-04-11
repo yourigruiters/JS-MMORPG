@@ -23,17 +23,13 @@ class Character {
     // Player sprites
     // UPDATE: Can the below be updated to animated sprites?
     this.sprites = {};
-    this.sprites[directions.up] = new Sprite([
-      { x: 480, y: 320, w: 80, h: 80 }
-    ]);
+    this.sprites[directions.up] = new Sprite([{ x: 80, y: 240, w: 80, h: 80 }]);
     this.sprites[directions.right] = new Sprite([
-      { x: 480, y: 240, w: 80, h: 80 }
+      { x: 80, y: 160, w: 80, h: 80 }
     ]);
-    this.sprites[directions.down] = new Sprite([
-      { x: 480, y: 80, w: 80, h: 80 }
-    ]);
+    this.sprites[directions.down] = new Sprite([{ x: 80, y: 0, w: 80, h: 80 }]);
     this.sprites[directions.left] = new Sprite([
-      { x: 480, y: 160, w: 80, h: 80 }
+      { x: 80, y: 80, w: 80, h: 80 }
     ]);
   }
 

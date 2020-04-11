@@ -34,7 +34,7 @@ class Sprite {
 
   // Draw method
   // T = ElapsedGameTime
-  draw = (t, x, y) => {
+  draw = (t, x, y, imageset) => {
     let frameIdx = 0;
 
     // Check if time value is greater than duration of animation
@@ -63,7 +63,7 @@ class Sprite {
 
     // Draw sprite
     ctx.drawImage(
-      tileset,
+      imageset,
       this.frames[frameIdx].x + tileTakeExtra,
       this.frames[frameIdx].y + tileTakeExtra,
       this.frames[frameIdx].w - tileRemoveExtra,

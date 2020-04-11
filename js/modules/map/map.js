@@ -1,8 +1,3 @@
-// Global tileset variables
-const tilesetURL = "../../media/images/tileset.png";
-let tileset = null;
-let tilesetLoaded = false;
-
 // Current tileset
 // 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 // 0, 1, 1, 1, 1, 1, 1, 1, 1, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0,

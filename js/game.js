@@ -14,19 +14,6 @@ let gameSpeeds = [
 
 let currentGameSpeed = 0;
 
-// Map variables
-// Size of map
-const mapW = 20; // mapW * tileW = screenWidth
-const mapH = 20; // mapH * tileH = screenHeight
-// Size of tiles
-const tileW = 80; // in PX
-const tileH = 80; // in PX
-// Tileset multiplier for default 40px
-const tileMultiplier = tileW / 80;
-// Improved tiles
-const tileTakeExtra = 1;
-const tileRemoveExtra = 2;
-
 // FPS variables
 let currentSecond = 0;
 let frameCount = 0;
@@ -119,89 +106,7 @@ window.onload = () => {
   // Set viewport: equal to width and height of canvas
   viewport.screen = [canvas.width, canvas.height];
 
-  // Loading in tileset
-  tileset = new Image();
-
-  // If tileset cannot be loaded provide error
-  tileset.onerror = () => {
-    ctx = null;
-    console.log("Failed loading tileset image");
-  };
-
-  // Set tileset variable to true
-  tileset.onload = () => {
-    tilesetLoaded = true;
-  };
-
-  // Load tileset
-  tileset.src = tilesetURL;
-
-  // Check every tileType
-  for (tileType in tileTypes) {
-    // Check if tileType has multiple sprites (Animated sprite)
-    tileTypes[tileType]["animated"] =
-      tileTypes[tileType].sprites.length > 1 ? true : false;
-
-    // If tileType is animated
-    if (tileTypes[tileType].animated) {
-      // Calculate total duration of sprite
-      let totalDuration = 0;
-
-      for (sprite in tileTypes[tileType].sprites) {
-        tileTypes[tileType].sprites[sprite]["start"] = totalDuration;
-        totalDuration += tileTypes[tileType].sprites[sprite].d; //d = duration
-        tileTypes[tileType].sprites[sprite]["end"] = totalDuration;
-      }
-
-      // Add spriteDuration with total duration time for animations
-      tileTypes[tileType]["spriteDuration"] = totalDuration;
-    }
-  }
-
-  // Build map and add roofs
-  tileMapData.buildMapFromData(gameMap, mapW, mapH);
-  tileMapData.buildRoofsFromData(roofList);
-
-  // Example of eventEnter system
-  tileMapData.map[2 * mapW + 2].eventEnter = function() {
-    console.log("Entered tile 2,2");
-  };
-
-  // Example of objects placing on screen
-  let mo1 = new ObjectMap(1);
-  mo1.placeAt(2, 4);
-  let mo2 = new ObjectMap(2);
-  mo2.placeAt(2, 3);
-
-  let mo11 = new ObjectMap(1);
-  mo11.placeAt(6, 4);
-  let mo12 = new ObjectMap(2);
-  mo12.placeAt(7, 4);
-
-  let mo4 = new ObjectMap(3);
-  mo4.placeAt(4, 5);
-  let mo5 = new ObjectMap(3);
-  mo5.placeAt(4, 8);
-  let mo6 = new ObjectMap(3);
-  mo6.placeAt(4, 11);
-
-  let mo7 = new ObjectMap(3);
-  mo7.placeAt(2, 6);
-  let mo8 = new ObjectMap(3);
-  mo8.placeAt(2, 9);
-  let mo9 = new ObjectMap(3);
-  mo9.placeAt(2, 12);
-
-  // Example item stack
-
-  for (let i = 3; i < 8; i++) {
-    let ps = new PlacedItemStack(1, 1);
-    ps.placeAt(i, 1);
-  }
-  for (let i = 3; i < 8; i++) {
-    let ps = new PlacedItemStack(1, 1);
-    ps.placeAt(3, i);
-  }
+  loadMap("default");
 };
 
 //*** DRAWGAME ***/

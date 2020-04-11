@@ -14,6 +14,13 @@ drawCullingMap = () => {
     tileMapData.map[toIndex(player.tileTo[0], player.tileTo[1])].roof;
 
   // Draw complete map
+  // Tilemap layers
+  // 0: Floor
+  // 1: ItemStack
+  // 2: Player
+  // 3: Roof
+  // 4:
+  // x: Objects have own zIndex
   // Z - Layers, Y - Height, X - Width
   for (let z = 0; z < tileMapData.levels; z++) {
     for (let y = viewport.startTile[1]; y <= viewport.endTile[1]; y++) {
@@ -23,7 +30,8 @@ drawCullingMap = () => {
           tileTypes[tileMapData.map[toIndex(x, y)].type].sprites.draw(
             gameTime,
             viewport.offset[0] + x * tileW,
-            viewport.offset[1] + y * tileH
+            viewport.offset[1] + y * tileH,
+            floorset
           );
         } else if (z == 1) {
           // Draw itemStack on corresponding tile
@@ -32,7 +40,8 @@ drawCullingMap = () => {
             itemTypes[items.type].sprite.draw(
               gameTime,
               viewport.offset[0] + x * tileW + itemTypes[items.type].offset[0],
-              viewport.offset[1] + y * tileH + itemTypes[items.type].offset[1]
+              viewport.offset[1] + y * tileH + itemTypes[items.type].offset[1],
+              itemset
             );
           }
         }
@@ -48,13 +57,14 @@ drawCullingMap = () => {
           objectType.sprite.draw(
             gameTime,
             viewport.offset[0] + x * tileW + objectType.offset[0],
-            viewport.offset[1] + y * tileH + objectType.offset[1]
+            viewport.offset[1] + y * tileH + objectType.offset[1],
+            objectset
           );
         }
 
         // Draw roofs
         if (
-          z === 2 &&
+          z === 3 &&
           tileMapData.map[toIndex(x, y)].roofType != 0 &&
           tileMapData.map[toIndex(x, y)].roof != playerRoof1 &&
           tileMapData.map[toIndex(x, y)].roof != playerRoof2
@@ -62,17 +72,19 @@ drawCullingMap = () => {
           tileTypes[tileMapData.map[toIndex(x, y)].roofType].sprites.draw(
             gameTime,
             viewport.offset[0] + x * tileW,
-            viewport.offset[1] + y * tileH
+            viewport.offset[1] + y * tileH,
+            floorset
           );
         }
       }
 
-      if (z === 1) {
+      if (z === 2) {
         // Draw player
         player.sprites[player.direction].draw(
           gameTime,
           viewport.offset[0] + player.position[0],
-          viewport.offset[1] + player.position[1]
+          viewport.offset[1] + player.position[1],
+          characterset
         );
       }
     }
@@ -96,7 +108,8 @@ drawInventory = () => {
       itemType.sprite.draw(
         gameTime,
         10 + i * 90 + itemType.offset[0],
-        710 + itemType.offset[1]
+        710 + itemType.offset[1],
+        itemset
       );
 
       // Draw quantity of item if quantity is more than one
