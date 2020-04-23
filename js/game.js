@@ -7,8 +7,8 @@ let ctx = null;
 let gameTime = 0;
 
 let gameSpeeds = [
-  { name: "normal", mult: 1 },
-  { name: "fast", mult: 3 },
+  { name: "normal", mult: 2 },
+  { name: "fast", mult: 4 },
   { name: "paused", mult: 0 },
 ];
 
@@ -61,11 +61,6 @@ window.onload = () => {
   // Check for player movement
   // Key pressed
   window.addEventListener("keydown", (e) => {
-    // Key: arrows
-    if (e.keyCode >= 37 && e.keyCode <= 40) {
-      keysDown[e.keyCode] = true;
-    }
-
     // Key: t (take)
     if (e.keyCode == 84) {
       keysDown[e.keyCode] = true;
@@ -74,11 +69,6 @@ window.onload = () => {
 
   // Key released
   window.addEventListener("keyup", (e) => {
-    // Key: arrows
-    if (e.keyCode >= 37 && e.keyCode <= 40) {
-      keysDown[e.keyCode] = false;
-    }
-
     // Key: t (take)
     if (e.keyCode == 84) {
       keysDown[e.keyCode] = false;
@@ -102,6 +92,13 @@ window.onload = () => {
 
     // Log tile information to console
     console.log(tileMapData.map[toIndex(relX, relY)]);
+    
+    // Current location, location of clicked tile, Path to walk there
+    pathStart = player.tileFrom;
+    pathEnd = [relX, relY];
+
+    currentPath = findWalkablePath(pathStart, pathEnd);
+    player.path = provideWalkablePathToPlayer();
   });
 
   characterset = new Image();

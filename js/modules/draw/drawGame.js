@@ -30,12 +30,12 @@ drawGame = () => {
     frameCount++;
   }
 
-  // Check if player can move
+  // Check if player can act
   if (
     !player.processMovement(gameTime) &&
     gameSpeeds[currentGameSpeed].mult != 0
   ) {
-    movePlayer(gameTime);
+    playerAction(gameTime);
   }
 
   // Update viewport on the players current positions

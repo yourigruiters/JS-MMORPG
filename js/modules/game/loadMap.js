@@ -61,30 +61,16 @@ loadMap = (map, location) => {
       loadMap("bankMap");
     };
 
-    // // Example of objects placing on screen
+    // // Objects placing on screen
     let house1 = new ObjectMap(3);
     house1.placeAt(9, 4);
     let house2 = new ObjectMap(3);
     house2.placeAt(4, 9);
+    let tree1 = new ObjectMap(1);
+    tree1.placeAt(9, 9);
 
     let bank = new ObjectMap(4);
     bank.placeAt(3, 2);
-    // let mo1 = new ObjectMap(1);
-    // mo1.placeAt(2, 4);
-    // let mo2 = new ObjectMap(1);
-    // mo2.placeAt(2, 3);
-
-    // let mo4 = new ObjectMap(1);
-    // mo4.placeAt(4, 5);
-    // let mo5 = new ObjectMap(1);
-    // mo5.placeAt(4, 8);
-
-    // let mo7 = new ObjectMap(1);
-    // mo7.placeAt(2, 6);
-    // let mo8 = new ObjectMap(1);
-    // mo8.placeAt(2, 9);
-    // let mo9 = new ObjectMap(2);
-    // mo9.placeAt(8, 13);
 
     // // Example item stack
     // for (let i = 3; i < 8; i++) {
@@ -129,6 +115,12 @@ loadMap = (map, location) => {
 
     // Build map and add roofs
     tileMapData.buildMapFromData(outsideMap, mapW, mapH);
+
+    // // Objects placing on screen
+    let tree1 = new ObjectMap(1);
+    tree1.placeAt(1, 1);
+    let tree2 = new ObjectMap(1);
+    tree2.placeAt(3, 4);
 
     // Playmusic
     playMusic("peaceful");

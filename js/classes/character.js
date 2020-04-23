@@ -7,10 +7,11 @@ class Character {
     this.dimensions = [80, 80]; // Size of character
     this.position = [80, 80]; // Location on map
     this.inventory = new Inventory(3); // Inventory with amount of spaces
+    this.path = [];
 
     this.delayMove = {}; // Time needed to move
     // UPDATE: Can the below be some sort of automated?!
-    this.delayMove[floorTypes.path] = 400;
+    this.delayMove[floorTypes.path] = 700;
     this.delayMove[floorTypes.grass] = 700;
     this.delayMove[floorTypes.ice] = 300;
     this.delayMove[floorTypes.conveyorU] = 200;
@@ -42,6 +43,19 @@ class Character {
       tileH * y + (tileH - this.dimensions[1]) / 2,
     ];
   };
+
+  followPath = () => {
+    let direction = this.path.shift();
+    if(direction === "up" && player.canMoveUp()) {
+      player.moveUp(gameTime);
+    } else if(direction === "down" && player.canMoveDown()) {
+      player.moveDown(gameTime);
+    } else if(direction === "left" && player.canMoveLeft()) {
+      player.moveLeft(gameTime);
+    } else if(direction === "right" && player.canMoveRight()) {
+      player.moveRight(gameTime);
+    }
+  }
 
   // Process movement of the character
   processMovement = (currentFrameTime) => {
@@ -146,7 +160,7 @@ class Character {
 
     // Check if object on character is solid
     if (tileMapData.map[toIndex(x, y)].object != null) {
-      var object = tileMapData.map[toIndex(x, y)].object;
+      let object = tileMapData.map[toIndex(x, y)].object;
       if (objectTypes[object.type].collision == objectCollision.solid) {
         return false;
       }
@@ -192,18 +206,22 @@ class Character {
 
   // Move in direction
   moveUp = (gameTime) => {
+    this.direction = directions.up;
     this.tileTo[1] -= 1;
     this.timeMoved = gameTime;
   };
   moveDown = (gameTime) => {
+    this.direction = directions.down;
     this.tileTo[1] += 1;
     this.timeMoved = gameTime;
   };
   moveLeft = (gameTime) => {
+    this.direction = directions.left;
     this.tileTo[0] -= 1;
     this.timeMoved = gameTime;
   };
   moveRight = (gameTime) => {
+    this.direction = directions.right;
     this.tileTo[0] += 1;
     this.timeMoved = gameTime;
   };

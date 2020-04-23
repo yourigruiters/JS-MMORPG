@@ -30,7 +30,7 @@ const tileTypes = {
     sprites: new Sprite([{ x: 4 * 80 - 80, y: 1 * 80 - 80, w: 80, h: 80 }]),
   },
   5: {
-    floor: floorTypes.water, // 5 // 6 // 15 // 16
+    floor: floorTypes.solid, // 5 // 6 // 15 // 16
     sprites: new Sprite([
       { x: 5 * 80 - 80, y: 1 * 80 - 80, w: 80, h: 80, d: 200 },
       { x: 6 * 80 - 80, y: 1 * 80 - 80, w: 80, h: 80, d: 200 },
