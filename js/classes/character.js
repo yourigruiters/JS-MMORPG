@@ -25,11 +25,11 @@ class Character {
     this.sprites = {};
     this.sprites[directions.up] = new Sprite([{ x: 80, y: 240, w: 80, h: 80 }]);
     this.sprites[directions.right] = new Sprite([
-      { x: 80, y: 160, w: 80, h: 80 }
+      { x: 80, y: 160, w: 80, h: 80 },
     ]);
     this.sprites[directions.down] = new Sprite([{ x: 80, y: 0, w: 80, h: 80 }]);
     this.sprites[directions.left] = new Sprite([
-      { x: 80, y: 80, w: 80, h: 80 }
+      { x: 80, y: 80, w: 80, h: 80 },
     ]);
   }
 
@@ -39,12 +39,12 @@ class Character {
     this.tileTo = [x, y];
     this.position = [
       tileW * x + (tileW - this.dimensions[0]) / 2,
-      tileH * y + (tileH - this.dimensions[1]) / 2
+      tileH * y + (tileH - this.dimensions[1]) / 2,
     ];
   };
 
   // Process movement of the character
-  processMovement = currentFrameTime => {
+  processMovement = (currentFrameTime) => {
     // Check if character wants to move
     if (
       this.tileFrom[0] === this.tileTo[0] &&
@@ -175,7 +175,7 @@ class Character {
   };
 
   // Check if character can move in specified direction (Example: Ice floor type)
-  canMoveDirection = direction => {
+  canMoveDirection = (direction) => {
     switch (direction) {
       case directions.up:
         return this.canMoveUp();
@@ -191,19 +191,19 @@ class Character {
   };
 
   // Move in direction
-  moveUp = gameTime => {
+  moveUp = (gameTime) => {
     this.tileTo[1] -= 1;
     this.timeMoved = gameTime;
   };
-  moveDown = gameTime => {
+  moveDown = (gameTime) => {
     this.tileTo[1] += 1;
     this.timeMoved = gameTime;
   };
-  moveLeft = gameTime => {
+  moveLeft = (gameTime) => {
     this.tileTo[0] -= 1;
     this.timeMoved = gameTime;
   };
-  moveRight = gameTime => {
+  moveRight = (gameTime) => {
     this.tileTo[0] += 1;
     this.timeMoved = gameTime;
   };

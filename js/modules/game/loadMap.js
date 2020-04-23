@@ -28,15 +28,10 @@ const tileH = 80;
 const tileTakeExtra = 1;
 const tileRemoveExtra = 2;
 
-loadMap = map => {
-  if (map === "default") {
+loadMap = (map, location) => {
+  if (map === "mainMap") {
     mapW = 20;
     mapH = 20;
-
-    characterset = new Image();
-    floorset = new Image();
-    itemset = new Image();
-    objectset = new Image();
 
     // If tileset cannot be loaded provide error
     characterset.onerror = () => {
@@ -48,104 +43,121 @@ loadMap = map => {
     characterset.onload = () => {
       tilesetLoaded = true;
     };
-
-    // Load tileset
-    characterset.src = charactersetURL;
-    floorset.src = floorsetURL;
-    itemset.src = itemsetURL;
-    objectset.src = objectsetURL;
-
     // Build map and add roofs
-    tileMapData.buildMapFromData(gameMap, mapW, mapH);
-    tileMapData.buildRoofsFromData(roofList);
+    tileMapData.buildMapFromData(mainMap, mapW, mapH);
+    // tileMapData.buildRoofsFromData(roofList); // ADD LATER TO ICE DUNGEON
+
+    // Playmusic
+    playMusic("peaceful");
 
     // Example of eventEnter system
-    tileMapData.map[2 * mapW + 2].eventEnter = () => {
-      console.log("Entered tile 2,2");
+    tileMapData.map[19 * mapW + 9].eventEnter = () => {
+      loadMap("outsideMap");
     };
-    tileMapData.map[13 * mapW + 8].eventEnter = () => {
-      loadMap("test");
+    tileMapData.map[8 * mapW + 19].eventEnter = () => {
+      loadMap("wildMap");
+    };
+    tileMapData.map[5 * mapW + 5].eventEnter = () => {
+      loadMap("bankMap");
     };
 
-    // Example of objects placing on screen
-    let mo1 = new ObjectMap(1);
-    mo1.placeAt(2, 4);
-    let mo2 = new ObjectMap(1);
-    mo2.placeAt(2, 3);
+    // // Example of objects placing on screen
+    let house1 = new ObjectMap(3);
+    house1.placeAt(9, 4);
+    let house2 = new ObjectMap(3);
+    house2.placeAt(4, 9);
 
-    let mo4 = new ObjectMap(1);
-    mo4.placeAt(4, 5);
-    let mo5 = new ObjectMap(1);
-    mo5.placeAt(4, 8);
+    let bank = new ObjectMap(4);
+    bank.placeAt(3, 2);
+    // let mo1 = new ObjectMap(1);
+    // mo1.placeAt(2, 4);
+    // let mo2 = new ObjectMap(1);
+    // mo2.placeAt(2, 3);
 
-    let mo7 = new ObjectMap(1);
-    mo7.placeAt(2, 6);
-    let mo8 = new ObjectMap(1);
-    mo8.placeAt(2, 9);
-    let mo9 = new ObjectMap(2);
-    mo9.placeAt(8, 13);
+    // let mo4 = new ObjectMap(1);
+    // mo4.placeAt(4, 5);
+    // let mo5 = new ObjectMap(1);
+    // mo5.placeAt(4, 8);
 
-    // Example item stack
-    for (let i = 3; i < 8; i++) {
-      let ps = new PlacedItemStack(1, 1);
-      ps.placeAt(i, 1);
+    // let mo7 = new ObjectMap(1);
+    // mo7.placeAt(2, 6);
+    // let mo8 = new ObjectMap(1);
+    // mo8.placeAt(2, 9);
+    // let mo9 = new ObjectMap(2);
+    // mo9.placeAt(8, 13);
+
+    // // Example item stack
+    // for (let i = 3; i < 8; i++) {
+    //   let ps = new PlacedItemStack(1, 1);
+    //   ps.placeAt(i, 1);
+    // }
+    // for (let i = 3; i < 8; i++) {
+    //   let ps = new PlacedItemStack(1, 1);
+    //   ps.placeAt(3, i);
+    // }
+
+    //Place character
+    if (location === "default") {
+      player.placeAt(9, 8);
+    } else if (location === "right") {
+      player.placeAt(18, 8);
+    } else if (location === "bottom") {
+      player.placeAt(9, 18);
+    } else if (location === "bank") {
+      player.placeAt(5, 6);
     }
-    for (let i = 3; i < 8; i++) {
-      let ps = new PlacedItemStack(1, 1);
-      ps.placeAt(3, i);
-    }
+  } else if (map === "wildMap") {
+    mapW = 20;
+    mapH = 20;
+
+    // Build map and add roofs
+    tileMapData.buildMapFromData(wildMap, mapW, mapH);
+
+    // Playmusic
+    playMusic("battlefront");
+
+    // Example of eventEnter system
+    tileMapData.map[8 * mapW + 0].eventEnter = () => {
+      loadMap("mainMap", "right");
+    };
+
+    //Place character
+    player.placeAt(1, 8);
+  } else if (map === "outsideMap") {
+    mapW = 8;
+    mapH = 6;
+
+    // Build map and add roofs
+    tileMapData.buildMapFromData(outsideMap, mapW, mapH);
+
+    // Playmusic
+    playMusic("peaceful");
+
+    // Example of eventEnter system
+    tileMapData.map[0 * mapW + 4].eventEnter = () => {
+      loadMap("mainMap", "bottom");
+    };
+
+    //Place character
+    player.placeAt(4, 1);
+  } else if (map === "bankMap") {
+    mapW = 7;
+    mapH = 6;
+
+    // Build map and add roofs
+    tileMapData.buildMapFromData(bankMap, mapW, mapH);
+
+    // Playmusic
+    playMusic("peaceful");
+
+    // Example of eventEnter system
+    tileMapData.map[5 * mapW + 3].eventEnter = () => {
+      loadMap("mainMap", "bank");
+    };
+
+    //Place character
+    player.placeAt(3, 4);
   } else {
-    mapW = 20;
-    mapH = 20;
-
-    characterset = new Image();
-    floorset = new Image();
-    itemset = new Image();
-    objectset = new Image();
-
-    // If tileset cannot be loaded provide error
-    characterset.onerror = () => {
-      ctx = null;
-      console.log("Failed loading tileset image");
-    };
-
-    // Set tileset variable to true
-    characterset.onload = () => {
-      tilesetLoaded = true;
-    };
-
-    // Load tileset
-    characterset.src = charactersetURL;
-    floorset.src = floorsetURL;
-    itemset.src = itemsetURL;
-    objectset.src = objectsetURL;
-
-    // Build map and add roofs
-    tileMapData.buildMapFromData(gameMap, mapW, mapH);
-    tileMapData.buildRoofsFromData(roofList);
-
-    // Example of eventEnter system
-    tileMapData.map[2 * mapW + 2].eventEnter = () => {
-      console.log("Entered tile 2,2");
-    };
-    tileMapData.map[13 * mapW + 8].eventEnter = () => {
-      loadMap("test");
-    };
-
-    // Example of objects placing on screen
-    let mo1 = new ObjectMap(1);
-    mo1.placeAt(2, 4);
-    let mo2 = new ObjectMap(2);
-    mo2.placeAt(2, 3);
-
-    // Example item stack
-    for (let i = 3; i < 8; i++) {
-      let ps = new PlacedItemStack(1, 1);
-      ps.placeAt(i, 1);
-    }
-    for (let i = 3; i < 8; i++) {
-      let ps = new PlacedItemStack(1, 1);
-      ps.placeAt(3, i);
-    }
+    alert("error in loading map - wrong map name");
   }
 };

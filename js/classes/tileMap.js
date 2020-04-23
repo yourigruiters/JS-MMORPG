@@ -16,6 +16,7 @@ class TileMap {
 
     // Is length given equal to size of the map?
     if (map.length != mapW * mapH) {
+      alert("test");
       return false;
     }
 
@@ -34,7 +35,7 @@ class TileMap {
   };
 
   // Generate the roofs
-  buildRoofsFromData = roofs => {
+  buildRoofsFromData = (roofs) => {
     // Check every roof
     for (let index in roofs) {
       let roof = roofs[index];

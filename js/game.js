@@ -9,7 +9,7 @@ let gameTime = 0;
 let gameSpeeds = [
   { name: "normal", mult: 1 },
   { name: "fast", mult: 3 },
-  { name: "paused", mult: 0 }
+  { name: "paused", mult: 0 },
 ];
 
 let currentGameSpeed = 0;
@@ -25,7 +25,7 @@ const directions = {
   up: 0,
   right: 1,
   down: 2,
-  left: 3
+  left: 3,
 };
 
 //*** CLASS VARIABLES ***/
@@ -48,14 +48,19 @@ window.onload = () => {
   // Create game and start canvas
   canvas = document.getElementById("canvas");
   ctx = canvas.getContext("2d");
+
+  // Set game to fullscreen
+  resize();
+
+  // DrawGame
   requestAnimationFrame(drawGame);
 
-  // Font details
-  ctx.font = "normal 25px sans-serif";
+  // Resize fullscreen game
+  window.addEventListener("resize", () => resize());
 
   // Check for player movement
   // Key pressed
-  window.addEventListener("keydown", e => {
+  window.addEventListener("keydown", (e) => {
     // Key: arrows
     if (e.keyCode >= 37 && e.keyCode <= 40) {
       keysDown[e.keyCode] = true;
@@ -68,7 +73,7 @@ window.onload = () => {
   });
 
   // Key released
-  window.addEventListener("keyup", e => {
+  window.addEventListener("keyup", (e) => {
     // Key: arrows
     if (e.keyCode >= 37 && e.keyCode <= 40) {
       keysDown[e.keyCode] = false;
@@ -91,83 +96,24 @@ window.onload = () => {
   });
 
   // Check for mouse click
-  canvas.addEventListener("mousedown", e => {
-    const relX = Math.floor(
-      (e.pageX - e.target.offsetLeft - viewport.offset[0]) / 80
-    );
-    const relY = Math.floor(
-      (e.pageY - e.target.offsetTop - viewport.offset[1]) / 80
-    );
+  canvas.addEventListener("mousedown", (e) => {
+    const relX = Math.floor((e.pageX - viewport.offset[0]) / 80);
+    const relY = Math.floor((e.pageY - viewport.offset[1]) / 80);
 
     // Log tile information to console
     console.log(tileMapData.map[toIndex(relX, relY)]);
   });
 
-  // Set viewport: equal to width and height of canvas
-  viewport.screen = [canvas.width, canvas.height];
+  characterset = new Image();
+  floorset = new Image();
+  itemset = new Image();
+  objectset = new Image();
 
-  loadMap("default");
-};
+  // Load tileset
+  characterset.src = charactersetURL;
+  floorset.src = floorsetURL;
+  itemset.src = itemsetURL;
+  objectset.src = objectsetURL;
 
-//*** DRAWGAME ***/
-// Draw the game (Returning instances)
-drawGame = () => {
-  if (ctx === null) {
-    return;
-  }
-
-  // Check if tileset has loaded properly, else try again
-  if (!tilesetLoaded) {
-    requestAnimationFrame(drawGame);
-    return;
-  }
-
-  // Current time in MS
-  let currentFrameTime = Date.now();
-  // Set timeElapsed is time since last Frametime);
-  let timeElapsed = currentFrameTime - lastFrameTime;
-  gameTime += Math.floor(timeElapsed * gameSpeeds[currentGameSpeed].mult);
-
-  // Set second
-  let sec = Math.floor(Date.now() / 1000);
-
-  // Check framecount (Should be 60fps)
-  if (sec != currentSecond) {
-    currentSecond = sec;
-    framesLastSecond = frameCount;
-    frameCount = 1;
-  } else {
-    frameCount++;
-  }
-
-  // Check if player can move
-  if (
-    !player.processMovement(gameTime) &&
-    gameSpeeds[currentGameSpeed].mult != 0
-  ) {
-    movePlayer(gameTime);
-  }
-
-  // Update viewport on the players current positions
-  viewport.update(
-    player.position[0] + player.dimensions[0] / 2,
-    player.position[1] + player.dimensions[1] / 2
-  );
-
-  // Draw background
-  drawBackground();
-
-  // Draw map (Culling mode - Draw tiles visible to player only)
-  drawCullingMap(currentFrameTime);
-
-  // Draw inventory
-  drawInventory();
-
-  // Draw FPS counter
-  drawFPSCounter();
-
-  // Update lastFrameTime (Global variable)
-  lastFrameTime = currentFrameTime;
-  // Re-drawing of game
-  requestAnimationFrame(drawGame);
+  loadMap("mainMap", "default");
 };

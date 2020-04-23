@@ -8,6 +8,11 @@
   </head>
   <body>
     <canvas id="canvas" width="1792" height="937"></canvas>
+    <div id="gameOptions">
+      <button id="play">Play</button>
+      <button id="musicOn">Sounds on</button>
+      <button id="musicOff">Sounds on</button>
+    </div>
 
     <!-- All JS script files -->
     <script src="js/classes/tileMap.js"></script>
@@ -19,13 +24,16 @@
     <script src="js/classes/stack.js"></script>
     <script src="js/classes/placedItemStack.js"></script>
     <script src="js/classes/viewport.js"></script>
-    <script src="js/modules/map/map.js"></script>
+    <script src="js/modules/audio/audio.js"></script>
+    <script src="js/modules/map/maps.js"></script>
     <script src="js/modules/map/tileRoofs.js"></script>
     <script src="js/modules/map/tileDetails.js"></script>
     <script src="js/modules/map/items.js"></script>
     <script src="js/modules/map/objects.js"></script>
     <script src="js/modules/game/loadMap.js"></script>
-    <script src="js/modules/draw/drawDefault.js"></script>
+    <script src="js/modules/game/resizing.js"></script>
+    <script src="js/modules/draw/drawGame.js"></script>
+    <script src="js/modules/draw/drawGameElements.js"></script>
     <script src="js/modules/player/keyboardActions.js"></script>
     <script src="js/game.js"></script>
   </body>
