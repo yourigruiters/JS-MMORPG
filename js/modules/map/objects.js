@@ -22,14 +22,14 @@ const objectTypes = {
   },
   3: {
     name: "House",
-    sprite: new Sprite([{ x: 0, y: 240, w: 240, h: 80 }]),
+    sprite: new Sprite([{ x: 0, y: 320, w: 240, h: 80 }]),
     offset: [0, 0],
     collision: objectCollision.none,
     zIndex: 3,
   },
   4: {
     name: "Bank",
-    sprite: new Sprite([{ x: 240, y: 240, w: 400, h: 80 }]),
+    sprite: new Sprite([{ x: 240, y: 240, w: 320, h: 80 }]),
     offset: [0, 0],
     collision: objectCollision.none,
     zIndex: 3,

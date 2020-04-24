@@ -14,10 +14,6 @@ class Character {
     this.delayMove[floorTypes.path] = 700;
     this.delayMove[floorTypes.grass] = 700;
     this.delayMove[floorTypes.ice] = 300;
-    this.delayMove[floorTypes.conveyorU] = 200;
-    this.delayMove[floorTypes.conveyorD] = 200;
-    this.delayMove[floorTypes.conveyorL] = 200;
-    this.delayMove[floorTypes.conveyorR] = 200;
 
     this.direction = directions.down;
 
@@ -101,14 +97,6 @@ class Character {
         if (this.canMoveDirection(this.direction)) {
           this.moveDirection(this.direction, currentFrameTime);
         }
-      } else if (tileFloor === floorTypes.conveyorL && this.canMoveLeft()) {
-        this.moveLeft(currentFrameTime);
-      } else if (tileFloor === floorTypes.conveyorR && this.canMoveRight()) {
-        this.moveRight(currentFrameTime);
-      } else if (tileFloor === floorTypes.conveyorU && this.canMoveUp()) {
-        this.moveUp(currentFrameTime);
-      } else if (tileFloor === floorTypes.conveyorD && this.canMoveDown()) {
-        this.moveDown(currentFrameTime);
       }
     } else {
       // Use for default types

@@ -63,24 +63,16 @@ loadMap = (map, location) => {
 
     // // Objects placing on screen
     let house1 = new ObjectMap(3);
-    house1.placeAt(9, 4);
+    house1.placeAt(9, 3);
     let house2 = new ObjectMap(3);
     house2.placeAt(4, 9);
-    let tree1 = new ObjectMap(1);
-    tree1.placeAt(9, 9);
 
     let bank = new ObjectMap(4);
-    bank.placeAt(3, 2);
+    bank.placeAt(4, 3);
 
-    // // Example item stack
-    // for (let i = 3; i < 8; i++) {
-    //   let ps = new PlacedItemStack(1, 1);
-    //   ps.placeAt(i, 1);
-    // }
-    // for (let i = 3; i < 8; i++) {
-    //   let ps = new PlacedItemStack(1, 1);
-    //   ps.placeAt(3, i);
-    // }
+    // Example item stack
+    let ps = new PlacedItemStack(1, 25);
+    ps.placeAt(3, 2);
 
     //Place character
     if (location === "default") {
@@ -90,7 +82,7 @@ loadMap = (map, location) => {
     } else if (location === "bottom") {
       player.placeAt(9, 18);
     } else if (location === "bank") {
-      player.placeAt(5, 6);
+      player.placeAt(5, 7);
     }
   } else if (map === "wildMap") {
     mapW = 20;
@@ -98,7 +90,17 @@ loadMap = (map, location) => {
 
     // Build map and add roofs
     tileMapData.buildMapFromData(wildMap, mapW, mapH);
-
+    // // Objects placing on screen
+    let tree1 = new ObjectMap(1);
+    tree1.placeAt(6, 9);
+    let tree2 = new ObjectMap(1);
+    tree2.placeAt(4, 10);
+    let tree3 = new ObjectMap(1);
+    tree3.placeAt(4, 12);
+    let tree4 = new ObjectMap(1);
+    tree4.placeAt(5, 14);
+    let tree5 = new ObjectMap(1);
+    tree5.placeAt(3, 16);
     // Playmusic
     playMusic("battlefront");
 
@@ -110,8 +112,8 @@ loadMap = (map, location) => {
     //Place character
     player.placeAt(1, 8);
   } else if (map === "outsideMap") {
-    mapW = 8;
-    mapH = 6;
+    mapW = 9;
+    mapH = 9;
 
     // Build map and add roofs
     tileMapData.buildMapFromData(outsideMap, mapW, mapH);
@@ -120,7 +122,13 @@ loadMap = (map, location) => {
     let tree1 = new ObjectMap(1);
     tree1.placeAt(1, 1);
     let tree2 = new ObjectMap(1);
-    tree2.placeAt(3, 4);
+    tree2.placeAt(1, 3);
+    let tree3 = new ObjectMap(1);
+    tree3.placeAt(2, 6);
+    let tree4 = new ObjectMap(1);
+    tree4.placeAt(7, 6);
+    let tree5 = new ObjectMap(1);
+    tree5.placeAt(6, 7);
 
     // Playmusic
     playMusic("peaceful");
@@ -134,7 +142,7 @@ loadMap = (map, location) => {
     player.placeAt(4, 1);
   } else if (map === "bankMap") {
     mapW = 7;
-    mapH = 6;
+    mapH = 7;
 
     // Build map and add roofs
     tileMapData.buildMapFromData(bankMap, mapW, mapH);
@@ -143,12 +151,12 @@ loadMap = (map, location) => {
     playMusic("peaceful");
 
     // Example of eventEnter system
-    tileMapData.map[5 * mapW + 3].eventEnter = () => {
+    tileMapData.map[6 * mapW + 3].eventEnter = () => {
       loadMap("mainMap", "bank");
     };
 
     //Place character
-    player.placeAt(3, 4);
+    player.placeAt(3, 5);
   } else {
     alert("error in loading map - wrong map name");
   }
