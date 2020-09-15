@@ -66,7 +66,7 @@ class Character {
 		// Speed of character movement on current tile type
 		let moveSpeed = this.delayMove[
 			tileTypes[
-				tileMapData.map[toIndex(this.tileFrom[0], this.tileFrom[1])].type
+				tileMapData.map[getTileIndex(this.tileFrom[0], this.tileFrom[1])].type
 			].floor
 		];
 
@@ -78,19 +78,19 @@ class Character {
 
 			// Check if reached tile as event, call even with character (this) if true
 			if (
-				tileMapData.map[toIndex(this.tileTo[0], this.tileTo[1])].eventEnter !=
-				null
+				tileMapData.map[getTileIndex(this.tileTo[0], this.tileTo[1])]
+					.eventEnter != null
 			) {
-				tileMapData.map[toIndex(this.tileTo[0], this.tileTo[1])].eventEnter(
-					this
-				);
+				tileMapData.map[
+					getTileIndex(this.tileTo[0], this.tileTo[1])
+				].eventEnter(this);
 			}
 
 			// Check floor type of character (Grass, sand, water AS 0, 1, 2)
 			// Use for special types
 			let tileFloor =
 				tileTypes[
-					tileMapData.map[toIndex(this.tileFrom[0], this.tileFrom[1])].type
+					tileMapData.map[getTileIndex(this.tileFrom[0], this.tileFrom[1])].type
 				].floor;
 
 			if (tileFloor === floorTypes.ice) {
@@ -140,15 +140,15 @@ class Character {
 		// Check if tileType is solid by checking delayMove options
 		if (
 			typeof this.delayMove[
-				tileTypes[tileMapData.map[toIndex(x, y)].type].floor
+				tileTypes[tileMapData.map[getTileIndex(x, y)].type].floor
 			] === "undefined"
 		) {
 			return false;
 		}
 
 		// Check if object on character is solid
-		if (tileMapData.map[toIndex(x, y)].object != null) {
-			let object = tileMapData.map[toIndex(x, y)].object;
+		if (tileMapData.map[getTileIndex(x, y)].object != null) {
+			let object = tileMapData.map[getTileIndex(x, y)].object;
 			if (objectTypes[object.type].collision == objectCollision.solid) {
 				return false;
 			}
@@ -242,7 +242,8 @@ class Character {
 
 		// Check if itemStack on character is defined
 		const itemsStack =
-			tileMapData.map[toIndex(this.tileFrom[0], this.tileFrom[1])].itemStack;
+			tileMapData.map[getTileIndex(this.tileFrom[0], this.tileFrom[1])]
+				.itemStack;
 
 		// If there is an itemStack under character
 		if (itemsStack !== null) {
@@ -254,7 +255,7 @@ class Character {
 				itemsStack.qty = remains;
 			} else {
 				tileMapData.map[
-					toIndex(this.tileFrom[0], this.tileFrom[1])
+					getTileIndex(this.tileFrom[0], this.tileFrom[1])
 				].itemStack = null;
 			}
 		}

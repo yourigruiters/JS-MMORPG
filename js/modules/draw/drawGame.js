@@ -16,7 +16,7 @@ drawGame = () => {
 	let currentFrameTime = Date.now();
 	// Set timeElapsed is time since last Frametime);
 	let timeElapsed = currentFrameTime - lastFrameTime;
-	gameTime += Math.floor(timeElapsed * gameSpeeds[currentGameSpeed].mult);
+	gameTime += Math.floor(timeElapsed * gameSpeed);
 
 	// Set second
 	let sec = Math.floor(Date.now() / 1000);
@@ -31,10 +31,7 @@ drawGame = () => {
 	}
 
 	// Check if player can act
-	if (
-		!player.processMovement(gameTime) &&
-		gameSpeeds[currentGameSpeed].mult != 0
-	) {
+	if (!player.processMovement(gameTime)) {
 		playerAction(gameTime);
 	}
 

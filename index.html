@@ -13,16 +13,23 @@
     <canvas id="canvas" width="1792" height="937"></canvas>
     <div id="gameBar">
       <!-- <form id="form"> -->
-      <input type="text" id="message" placeholder="Write a message..." />
-      <input type="submit" id="submit" value="Send!" />
+      <input type="text" id="message" placeholder="Write a message..." autofocus />
       <!-- </form> -->
     </div>
   </div>
-  <!-- <div id="gameOptions">
-      <button id="play">Play</button>
-      <button id="musicOn">Sounds on</button>
-      <button id="musicOff">Sounds on</button>
-    </div> -->
+  <div id="game-overlay">
+    <div class="menu">
+      <div class="menu__header">
+        123
+      </div>
+      <div class="menu__main">
+        123
+      </div>
+      <div class="menu__footer">
+        123
+      </div>
+    </div>
+  </div>
 
   <!-- All JS script files -->
   <script src="js/classes/tileMap.js"></script>
@@ -34,6 +41,8 @@
   <script src="js/classes/stack.js"></script>
   <script src="js/classes/placedItemStack.js"></script>
   <script src="js/classes/viewport.js"></script>
+  <script src="js/modules/mouse/mouseHandler.js"></script>
+  <script src="js/modules/keyboard/keyboardHandler.js"></script>
   <script src="js/modules/audio/audio.js"></script>
   <script src="js/modules/map/maps.js"></script>
   <script src="js/modules/map/tileRoofs.js"></script>

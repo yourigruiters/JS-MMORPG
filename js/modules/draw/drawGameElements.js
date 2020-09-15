@@ -1,6 +1,6 @@
 // Draw background for canvas size
 drawBackground = () => {
-	ctx.fillStyle = "#2c3e50";
+	ctx.fillStyle = canvasBackgroundColor;
 	ctx.fillRect(0, 0, viewport.screen[0], viewport.screen[1]);
 };
 
@@ -8,10 +8,10 @@ drawBackground = () => {
 drawCullingMap = () => {
 	// Check if current tile is a roof tile
 	let playerRoof1 =
-		tileMapData.map[toIndex(player.tileFrom[0], player.tileFrom[1])].roof;
+		tileMapData.map[getTileIndex(player.tileFrom[0], player.tileFrom[1])].roof;
 	// Check if moving to tile is a roof tile
 	let playerRoof2 =
-		tileMapData.map[toIndex(player.tileTo[0], player.tileTo[1])].roof;
+		tileMapData.map[getTileIndex(player.tileTo[0], player.tileTo[1])].roof;
 
 	// Draw complete map
 	// Tilemap layers
@@ -27,7 +27,7 @@ drawCullingMap = () => {
 			for (let x = viewport.startTile[0]; x <= viewport.endTile[0]; x++) {
 				if (z === 0) {
 					// Draw floor by calling draw method of Sprite
-					tileTypes[tileMapData.map[toIndex(x, y)].type].sprites.draw(
+					tileTypes[tileMapData.map[getTileIndex(x, y)].type].sprites.draw(
 						gameTime,
 						viewport.offset[0] + x * tileW,
 						viewport.offset[1] + y * tileH,
@@ -35,7 +35,7 @@ drawCullingMap = () => {
 					);
 				} else if (z == 1) {
 					// Draw itemStack on corresponding tile
-					const items = tileMapData.map[toIndex(x, y)].itemStack;
+					const items = tileMapData.map[getTileIndex(x, y)].itemStack;
 					if (items != null) {
 						itemTypes[items.type].sprite.draw(
 							gameTime,
@@ -48,7 +48,7 @@ drawCullingMap = () => {
 
 				// Draw objects
 				// Check if object exist and is equal to current layer
-				let object = tileMapData.map[toIndex(x, y)].object;
+				let object = tileMapData.map[getTileIndex(x, y)].object;
 
 				if (object != null && objectTypes[object.type].zIndex === z) {
 					let objectType = objectTypes[object.type];
@@ -65,11 +65,11 @@ drawCullingMap = () => {
 				// Draw roofs
 				if (
 					z === 3 &&
-					tileMapData.map[toIndex(x, y)].roofType != 0 &&
-					tileMapData.map[toIndex(x, y)].roof != playerRoof1 &&
-					tileMapData.map[toIndex(x, y)].roof != playerRoof2
+					tileMapData.map[getTileIndex(x, y)].roofType != 0 &&
+					tileMapData.map[getTileIndex(x, y)].roof != playerRoof1 &&
+					tileMapData.map[getTileIndex(x, y)].roof != playerRoof2
 				) {
-					tileTypes[tileMapData.map[toIndex(x, y)].roofType].sprites.draw(
+					tileTypes[tileMapData.map[getTileIndex(x, y)].roofType].sprites.draw(
 						gameTime,
 						viewport.offset[0] + x * tileW,
 						viewport.offset[1] + y * tileH,
@@ -134,8 +134,8 @@ drawCursor = (x, y) => {
 	// console.log("XXXXXX", posX, viewport.offset[0]);
 
 	ctx.beginPath();
-	ctx.lineWidth = "0.5";
-	ctx.strokeStyle = "red";
+	ctx.lineWidth = "2.5";
+	ctx.strokeStyle = mouseColor;
 	ctx.rect(posX + viewport.offset[0], posY + viewport.offset[1], 80, 80);
 	ctx.stroke();
 };
@@ -146,9 +146,4 @@ drawFPSCounter = () => {
 	ctx.textAlign = "left";
 	ctx.fillStyle = "#ff0000";
 	ctx.fillText("FPS: " + framesLastSecond, 10, 35);
-	ctx.fillText(
-		"Game speed: " + gameSpeeds[currentGameSpeed].name + " -- (s)",
-		10,
-		65
-	);
 };
