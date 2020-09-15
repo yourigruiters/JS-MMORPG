@@ -3,13 +3,17 @@
 let canvas = null;
 let ctx = null;
 
+// GameBar variables
+let messageInput = null;
+let messageSubmit = null;
+
 // Gametime and speed information
 let gameTime = 0;
 
 let gameSpeeds = [
-  { name: "normal", mult: 2 },
-  { name: "fast", mult: 4 },
-  { name: "paused", mult: 0 },
+	{ name: "normal", mult: 2 },
+	{ name: "fast", mult: 4 },
+	{ name: "paused", mult: 0 },
 ];
 
 let currentGameSpeed = 0;
@@ -22,12 +26,14 @@ let lastFrameTime = 0;
 
 // Possible directions
 const directions = {
-  up: 0,
-  right: 1,
-  down: 2,
-  left: 3,
+	up: 0,
+	right: 1,
+	down: 2,
+	left: 3,
 };
 
+let mouseLocationX = 0;
+let mouseLocationY = 0;
 //*** CLASS VARIABLES ***/
 // Create tileMap
 const tileMapData = new TileMap();
@@ -39,78 +45,107 @@ let player = new Character();
 //*** HELPER FUNCTION ***/
 // Function: return index of tile character is moving to
 toIndex = (x, y) => {
-  return y * mapW + x;
+	return y * mapW + x;
 };
 
 //*** WINDOW.ONLOAD ***/
 // When the game is first loaded (Single instances)
 window.onload = () => {
-  // Create game and start canvas
-  canvas = document.getElementById("canvas");
-  ctx = canvas.getContext("2d");
+	// Create game and start canvas
+	canvas = document.getElementById("canvas");
+	ctx = canvas.getContext("2d");
 
-  // Set game to fullscreen
-  resize();
+	// GameBar elements
+	messageInput = document.getElementById("message");
+	messageSubmit = document.getElementById("submit");
 
-  // DrawGame
-  requestAnimationFrame(drawGame);
+	// Set game to fullscreen
+	resize();
 
-  // Resize fullscreen game
-  window.addEventListener("resize", () => resize());
+	// DrawGame
+	requestAnimationFrame(drawGame);
 
-  // Check for player movement
-  // Key pressed
-  window.addEventListener("keydown", (e) => {
-    // Key: t (take)
-    if (e.keyCode == 84) {
-      keysDown[e.keyCode] = true;
-    }
-  });
+	// Resize fullscreen game
+	window.addEventListener("resize", () => resize());
 
-  // Key released
-  window.addEventListener("keyup", (e) => {
-    // Key: t (take)
-    if (e.keyCode == 84) {
-      keysDown[e.keyCode] = false;
-    }
+	// Check for player movement
+	// Key pressed
+	window.addEventListener("keydown", (e) => {
+		// Key: t (take)
+		if (e.keyCode == 84) {
+			keysDown[e.keyCode] = true;
+		}
+	});
 
-    // Key: s (speed)
-    if (e.keyCode == 83) {
-      currentGameSpeed = currentGameSpeed === 0 ? 1 : 0;
-    }
+	// Key released
+	window.addEventListener("keyup", (e) => {
+		// Key: t (take)
+		if (e.keyCode == 84) {
+			keysDown[e.keyCode] = false;
+		}
 
-    // Key: p (pause)
-    if (e.keyCode == 80) {
-      currentGameSpeed = currentGameSpeed === 2 ? 0 : 2;
-    }
-  });
+		// Key: s (speed)
+		if (e.keyCode == 83) {
+			currentGameSpeed = currentGameSpeed === 0 ? 1 : 0;
+		}
 
-  // Check for mouse click
-  canvas.addEventListener("mousedown", (e) => {
-    const relX = Math.floor((e.pageX - viewport.offset[0]) / 80);
-    const relY = Math.floor((e.pageY - viewport.offset[1]) / 80);
+		// Key: p (pause)
+		if (e.keyCode == 80) {
+			currentGameSpeed = currentGameSpeed === 2 ? 0 : 2;
+		}
+	});
 
-    // Log tile information to console
-    console.log(tileMapData.map[toIndex(relX, relY)]);
-    
-    // Current location, location of clicked tile, Path to walk there
-    pathStart = player.tileFrom;
-    pathEnd = [relX, relY];
+	canvas.addEventListener("mousemove", (e) => {
+		mouseLocationX = e.pageX - viewport.offset[0];
+		mouseLocationY = e.pageY - viewport.offset[1];
+	});
 
-    currentPath = findWalkablePath(pathStart, pathEnd);
-    player.path = provideWalkablePathToPlayer();
-  });
+	canvas.addEventListener(
+		"contextmenu",
+		function (e) {
+			e.preventDefault();
+		},
+		false
+	);
+	// Check for mouse click
+	canvas.addEventListener("mousedown", (e) => {
+		if (e.which === 1) {
+			const relX = Math.floor((e.pageX - viewport.offset[0]) / 80);
+			const relY = Math.floor((e.pageY - viewport.offset[1]) / 80);
 
-  characterset = new Image();
-  floorset = new Image();
-  itemset = new Image();
-  objectset = new Image();
+			// Log tile information to console
+			console.log(tileMapData.map[toIndex(relX, relY)]);
 
-  // Load tileset
-  characterset.src = charactersetURL;
-  floorset.src = floorsetURL;
-  itemset.src = itemsetURL;
-  objectset.src = objectsetURL;
+			// Current location, location of clicked tile, Path to walk there
+			pathStart = player.tileFrom;
+			pathEnd = [relX, relY];
 
-  loadMap("mainMap", "default");
+			currentPath = findWalkablePath(pathStart, pathEnd);
+			player.path = provideWalkablePathToPlayer();
+		} else if (e.which === 3) {
+			e.preventDefault();
+		}
+	});
+
+	// Check for typing of message
+	messageSubmit.addEventListener("click", (e) => {
+		e.preventDefault();
+		if (messageInput.value !== "") {
+			player.sendMessage(messageInput.value);
+			messageInput.value = "";
+		}
+	});
+
+	characterset = new Image();
+	floorset = new Image();
+	itemset = new Image();
+	objectset = new Image();
+
+	// Load tileset
+	characterset.src = charactersetURL;
+	floorset.src = floorsetURL;
+	itemset.src = itemsetURL;
+	objectset.src = objectsetURL;
+
+	loadMap("mainMap", "default");
 };

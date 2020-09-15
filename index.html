@@ -1,41 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link rel="stylesheet" href="css/styles.css" />
-  </head>
-  <body>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+
+<body>
+  <div id="game">
     <canvas id="canvas" width="1792" height="937"></canvas>
-    <!-- <div id="gameOptions">
+    <div id="gameBar">
+      <!-- <form id="form"> -->
+      <input type="text" id="message" placeholder="Write a message..." />
+      <input type="submit" id="submit" value="Send!" />
+      <!-- </form> -->
+    </div>
+  </div>
+  <!-- <div id="gameOptions">
       <button id="play">Play</button>
       <button id="musicOn">Sounds on</button>
       <button id="musicOff">Sounds on</button>
     </div> -->
 
-    <!-- All JS script files -->
-    <script src="js/classes/tileMap.js"></script>
-    <script src="js/classes/tile.js"></script>
-    <script src="js/classes/objectMap.js"></script>
-    <script src="js/classes/sprite.js"></script>
-    <script src="js/classes/character.js"></script>
-    <script src="js/classes/inventory.js"></script>
-    <script src="js/classes/stack.js"></script>
-    <script src="js/classes/placedItemStack.js"></script>
-    <script src="js/classes/viewport.js"></script>
-    <script src="js/modules/audio/audio.js"></script>
-    <script src="js/modules/map/maps.js"></script>
-    <script src="js/modules/map/tileRoofs.js"></script>
-    <script src="js/modules/map/tileDetails.js"></script>
-    <script src="js/modules/map/items.js"></script>
-    <script src="js/modules/map/objects.js"></script>
-    <script src="js/modules/game/loadMap.js"></script>
-    <script src="js/modules/game/resizing.js"></script>
-    <script src="js/modules/draw/drawGame.js"></script>
-    <script src="js/modules/draw/drawGameElements.js"></script>
-    <script src="js/modules/player/actions.js"></script>
-    <script src="js/modules/player/pathfinder.js"></script>
-    <script src="js/game.js"></script>
-  </body>
+  <!-- All JS script files -->
+  <script src="js/classes/tileMap.js"></script>
+  <script src="js/classes/tile.js"></script>
+  <script src="js/classes/objectMap.js"></script>
+  <script src="js/classes/sprite.js"></script>
+  <script src="js/classes/character.js"></script>
+  <script src="js/classes/inventory.js"></script>
+  <script src="js/classes/stack.js"></script>
+  <script src="js/classes/placedItemStack.js"></script>
+  <script src="js/classes/viewport.js"></script>
+  <script src="js/modules/audio/audio.js"></script>
+  <script src="js/modules/map/maps.js"></script>
+  <script src="js/modules/map/tileRoofs.js"></script>
+  <script src="js/modules/map/tileDetails.js"></script>
+  <script src="js/modules/map/items.js"></script>
+  <script src="js/modules/map/objects.js"></script>
+  <script src="js/modules/game/loadMap.js"></script>
+  <script src="js/modules/game/resizing.js"></script>
+  <script src="js/modules/draw/drawGame.js"></script>
+  <script src="js/modules/draw/drawGameElements.js"></script>
+  <script src="js/modules/player/actions.js"></script>
+  <script src="js/modules/player/pathfinder.js"></script>
+  <script src="js/game.js"></script>
+</body>
+
 </html>
