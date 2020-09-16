@@ -1,7 +1,6 @@
 const handleKeyDown = (e) => {
 	/*** Global keys ***/
 	if (e.keyCode == 27) {
-		console.log("JAZEKER");
 		// Esc - Open overlay
 		if (gameOverlay) {
 			gameOverlayElement.style.display = "flex";

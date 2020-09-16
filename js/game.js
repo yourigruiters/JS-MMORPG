@@ -1,7 +1,12 @@
 //*** GLOBAL GAME VARIABLES ***/
 // Overlay variables
 let gameOverlay = true;
+let inGameRightClickOptionsOpen = false;
+
 const gameOverlayElement = document.getElementById("game-overlay");
+const inGameRightClickOptionsElement = document.getElementById(
+	"ingame-right-click-options"
+);
 
 // Game variables
 let canvas = null;
@@ -88,12 +93,12 @@ window.onload = () => {
 	window.addEventListener("keyup", (e) => handleKeyUp(e));
 
 	// Check for mouse movement
-	canvas.addEventListener("mousemove", (e) => handleMouseMove(e));
+	window.addEventListener("mousemove", (e) => handleMouseMove(e));
 
-	canvas.addEventListener("contextmenu", (e) => e.preventDefault(), false);
+	window.addEventListener("contextmenu", (e) => e.preventDefault(), false);
 
 	// Check for mouse click
-	canvas.addEventListener("mousedown", (e) => handleMouseDown(e));
+	window.addEventListener("mouseup", (e) => handleMouseUp(e));
 
 	// Check for typing of message
 	// messageSubmit.addEventListener("click", (e) => {

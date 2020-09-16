@@ -3,9 +3,17 @@ let pathEnd;
 let currentPath = [];
 let currentPlace;
 
-callPathFinder = (e) => {
-	const relX = Math.floor((e.pageX - viewport.offset[0]) / 80);
-	const relY = Math.floor((e.pageY - viewport.offset[1]) / 80);
+callPathFinder = (e, customX, customY) => {
+	let relX;
+	let relY;
+
+	if (e) {
+		relX = Math.floor((e.pageX - viewport.offset[0]) / 80);
+		relY = Math.floor((e.pageY - viewport.offset[1]) / 80);
+	} else {
+		relX = customX;
+		relY = customY;
+	}
 
 	// Log tile information to console
 	console.log(tileMapData.map[getTileIndex(relX, relY)]);
