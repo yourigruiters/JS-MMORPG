@@ -1,5 +1,3 @@
-![Logo YG](http://github.yourigruiters.com/images/logo.png)
-
 # MMORPG Javascript game
 A custom JavaScript canvas game with a lot of pixel perfect calculations. 
 [On hold since 2020]
