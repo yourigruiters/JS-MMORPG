@@ -1,6 +1,7 @@
 # MMORPG Javascript game
 
-My custom javascript game created using canvas and a lot of pixel position calculating logic.
+A custom JavaScript canvas game with a lot of pixel perfect calculations.
+[On hold since 2020]
 
 ## Used Modules
 
